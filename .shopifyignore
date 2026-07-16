@@ -5,6 +5,7 @@
 /server.mjs
 /package.json
 /scripts/
+/media/
 
 # Shopify does not support nested theme asset folders. The build script
 # creates equivalent top-level assets without altering these source files.

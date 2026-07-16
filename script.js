@@ -107,7 +107,7 @@ $("#add-brush").addEventListener("change", () => {
       key: "blend-blur-body-brush|Gold",
       name: "Blend & Blur Body Brush",
       detail: "Gold",
-      image: "assets/brush/gold-hero.webp",
+      image: "assets/brush-gold-hero.webp",
       url: "brush.html",
       price: 49,
     });
@@ -201,7 +201,7 @@ $(".add-to-bag").addEventListener("click", () => {
       key: "blend-blur-body-brush|Gold",
       name: "Blend & Blur Body Brush",
       detail: "Gold",
-      image: "assets/brush/gold-hero.webp",
+      image: "assets/brush-gold-hero.webp",
       url: "brush.html",
       price: 49,
     });
@@ -314,7 +314,7 @@ $$('[data-add-product]').forEach((button) => {
         key: `blend-blur-body-brush|${selection}`,
         name: product,
         detail: selection,
-        image: "assets/brush/gold-hero.webp",
+        image: "assets/brush-gold-hero.webp",
         url: "brush.html",
         price: 49,
       });

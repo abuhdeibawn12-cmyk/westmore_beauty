@@ -3,6 +3,8 @@ import path from "node:path";
 
 const root = process.cwd();
 const assetsDirectory = path.join(root, "assets");
+const mediaCdnBase =
+  "https://cdn.jsdelivr.net/gh/abuhdeibawn12-cmyk/westmore_beauty@main/media/videos";
 
 const sourcePages = {
   home: "home.html",
@@ -73,8 +75,12 @@ function replaceAssetReferences(source) {
   return result;
 }
 
+function replaceMediaReferences(source) {
+  return source.replaceAll("media/videos/", `${mediaCdnBase}/`);
+}
+
 function convertSource(source) {
-  return replaceStaticRoutes(replaceAssetReferences(source));
+  return replaceStaticRoutes(replaceMediaReferences(replaceAssetReferences(source)));
 }
 
 function extractBody(html, filename) {
