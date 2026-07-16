@@ -1,0 +1,216 @@
+(function initializeWestmoreCart() {
+  const storageKey = "westmore-cart-v1";
+  const listeners = new Set();
+
+  function readItems() {
+    try {
+      const parsed = JSON.parse(window.localStorage.getItem(storageKey) || "[]");
+      if (!Array.isArray(parsed)) return [];
+      return parsed.filter((item) => item && item.key && Number(item.quantity) > 0).map((item) => ({
+        key: String(item.key),
+        name: String(item.name || "Product"),
+        detail: String(item.detail || ""),
+        image: String(item.image || ""),
+        url: String(item.url || ""),
+        price: Math.max(0, Number(item.price) || 0),
+        quantity: Math.max(1, Math.floor(Number(item.quantity) || 1)),
+      }));
+    } catch {
+      return [];
+    }
+  }
+
+  let items = readItems();
+  const money = (value) => `$${Number(value).toFixed(2)}`;
+  const cloneItems = () => items.map((item) => ({ ...item }));
+
+  function saveAndNotify() {
+    window.localStorage.setItem(storageKey, JSON.stringify(items));
+    listeners.forEach((listener) => listener(cloneItems()));
+  }
+
+  function add(item, quantity = 1) {
+    const safeQuantity = Math.max(1, Math.floor(Number(quantity) || 1));
+    const existing = items.find((line) => line.key === item.key);
+    if (existing) {
+      existing.quantity += safeQuantity;
+      existing.name = String(item.name || existing.name);
+      existing.detail = String(item.detail || existing.detail);
+      existing.image = String(item.image || existing.image);
+      existing.url = String(item.url || existing.url);
+      existing.price = Math.max(0, Number(item.price) || existing.price);
+    } else {
+      items.push({
+        key: String(item.key),
+        name: String(item.name || "Product"),
+        detail: String(item.detail || ""),
+        image: String(item.image || ""),
+        url: String(item.url || ""),
+        price: Math.max(0, Number(item.price) || 0),
+        quantity: safeQuantity,
+      });
+    }
+    saveAndNotify();
+  }
+
+  function setQuantity(key, quantity) {
+    const line = items.find((item) => item.key === key);
+    if (!line) return;
+    const nextQuantity = Math.floor(Number(quantity) || 0);
+    if (nextQuantity <= 0) items = items.filter((item) => item.key !== key);
+    else line.quantity = nextQuantity;
+    saveAndNotify();
+  }
+
+  function remove(key) {
+    items = items.filter((item) => item.key !== key);
+    saveAndNotify();
+  }
+
+  function getCount() {
+    return items.reduce((total, item) => total + item.quantity, 0);
+  }
+
+  function getSubtotal() {
+    return items.reduce((total, item) => total + item.price * item.quantity, 0);
+  }
+
+  function createProductLink(item, className, child) {
+    if (!item.url) return child;
+    const link = document.createElement("a");
+    link.className = className;
+    link.href = item.url;
+    link.append(child);
+    return link;
+  }
+
+  function createGenericLine(item) {
+    const article = document.createElement("article");
+    article.className = "drawer-line";
+    article.dataset.cartKey = item.key;
+
+    const image = document.createElement("img");
+    image.src = item.image;
+    image.alt = item.name;
+    article.append(createProductLink(item, "drawer-product-image", image));
+
+    const copy = document.createElement("div");
+    const heading = document.createElement("h3");
+    const headingText = document.createElement("span");
+    headingText.textContent = item.name;
+    heading.append(createProductLink(item, "drawer-product-name", headingText));
+    copy.append(heading);
+    if (item.detail) {
+      const detail = document.createElement("p");
+      detail.textContent = item.detail;
+      copy.append(detail);
+    }
+    const quantity = document.createElement("div");
+    quantity.className = "quantity";
+    const decrease = document.createElement("button");
+    decrease.type = "button";
+    decrease.dataset.cartAction = "decrease";
+    decrease.textContent = "−";
+    decrease.setAttribute("aria-label", `Decrease ${item.name} quantity`);
+    const quantityValue = document.createElement("span");
+    quantityValue.textContent = String(item.quantity);
+    const increase = document.createElement("button");
+    increase.type = "button";
+    increase.dataset.cartAction = "increase";
+    increase.textContent = "+";
+    increase.setAttribute("aria-label", `Increase ${item.name} quantity`);
+    quantity.append(decrease, quantityValue, increase);
+    copy.append(quantity);
+    article.append(copy);
+
+    const meta = document.createElement("div");
+    meta.className = "drawer-line-meta";
+    const linePrice = document.createElement("strong");
+    linePrice.textContent = money(item.price * item.quantity);
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.dataset.cartAction = "remove";
+    removeButton.textContent = "Remove";
+    removeButton.setAttribute("aria-label", `Remove ${item.name} from bag`);
+    meta.append(linePrice, removeButton);
+    article.append(meta);
+    return article;
+  }
+
+  function renderGenericCart(options = {}) {
+    const countBadges = [...document.querySelectorAll(options.countBadges || ".cart-count")];
+    const headerCount = document.querySelector(options.headerCount || ".drawer-count");
+    const empty = document.querySelector(options.empty || ".drawer-empty");
+    const itemsContainer = document.querySelector(options.items || ".drawer-items");
+    const footer = document.querySelector(options.footer || ".drawer-footer");
+    const subtotal = document.querySelector(options.subtotal || ".drawer-subtotal");
+    const checkout = document.querySelector(options.checkout || "[data-cart-checkout]");
+    const count = getCount();
+
+    countBadges.forEach((badge) => {
+      badge.textContent = String(count);
+      badge.classList.toggle("visible", count > 0);
+      badge.setAttribute("aria-label", `${count} ${count === 1 ? "item" : "items"}`);
+    });
+    if (headerCount) headerCount.textContent = `(${count})`;
+    if (empty) empty.hidden = count > 0;
+    if (footer) footer.hidden = count === 0;
+    if (subtotal) subtotal.textContent = money(getSubtotal());
+    if (checkout) {
+      checkout.disabled = count === 0;
+      if (!checkout.dataset.cartCheckoutBound) {
+        checkout.dataset.cartCheckoutBound = "true";
+        checkout.addEventListener("click", () => {
+          if (getCount() === 0) return;
+          let status = document.querySelector(".cart-checkout-status") || document.querySelector(".toast");
+          if (!status) {
+            status = document.createElement("div");
+            status.className = "toast cart-checkout-status";
+            status.setAttribute("role", "status");
+            status.setAttribute("aria-live", "polite");
+            document.body.append(status);
+          }
+          status.textContent = "Checkout is ready for business testing.";
+          status.classList.add("show");
+          window.setTimeout(() => status.classList.remove("show"), 2600);
+          window.dispatchEvent(new CustomEvent("westmore:checkout", { detail: { items: cloneItems(), subtotal: getSubtotal() } }));
+        });
+      }
+    }
+    if (itemsContainer) {
+      itemsContainer.replaceChildren(...items.map(createGenericLine));
+      itemsContainer.onclick = (event) => {
+        const button = event.target.closest("button[data-cart-action]");
+        const line = button?.closest("[data-cart-key]");
+        const item = line && items.find((entry) => entry.key === line.dataset.cartKey);
+        if (!button || !item) return;
+        if (button.dataset.cartAction === "increase") setQuantity(item.key, item.quantity + 1);
+        if (button.dataset.cartAction === "decrease") setQuantity(item.key, item.quantity - 1);
+        if (button.dataset.cartAction === "remove") remove(item.key);
+      };
+    }
+  }
+
+  function subscribe(listener) {
+    listeners.add(listener);
+    return () => listeners.delete(listener);
+  }
+
+  window.addEventListener("storage", (event) => {
+    if (event.key !== storageKey) return;
+    items = readItems();
+    listeners.forEach((listener) => listener(cloneItems()));
+  });
+
+  window.WestmoreCart = {
+    add,
+    remove,
+    setQuantity,
+    getItems: cloneItems,
+    getCount,
+    getSubtotal,
+    money,
+    renderGenericCart,
+    subscribe,
+  };
+})();

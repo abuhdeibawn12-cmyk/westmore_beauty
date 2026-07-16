@@ -1,0 +1,13 @@
+# Standalone source pages remain in the repository for local testing.
+/*.html
+/*.css
+/*.js
+/server.mjs
+/package.json
+/scripts/
+
+# Shopify does not support nested theme asset folders. The build script
+# creates equivalent top-level assets without altering these source files.
+/assets/brush/
+/assets/exclusive/
+/assets/home/
