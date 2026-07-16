@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Westmore Beauty Body Coverage Perfector product-page prototype."
+    />
+    <title>Body Coverage Perfector | Westmore Beauty</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="cart.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#product">Skip to product</a>
+
+    <div class="announcement">Free Shipping on All Orders $50+</div>
+
+    <header class="site-header">
+      <div class="header-main page-width">
+        <button class="icon-button menu-button" aria-label="Open menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+        </button>
+
+        <a class="logo" href="home.html" aria-label="Westmore Beauty home">
+          <img
+            src="assets/Westmore_-_Logo_CMYK_3_42fac461-62d8-4a93-a89e-ad1c92d41d40.png"
+            alt="Westmore Beauty"
+          />
+        </a>
+
+        <div class="header-actions">
+          <button class="icon-button" aria-label="Search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 5 5"/></svg>
+          </button>
+          <button class="icon-button account-button" aria-label="Account">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M4.5 22c.4-5 3-8 7.5-8s7.1 3 7.5 8"/></svg>
+          </button>
+          <button class="icon-button cart-button" aria-label="Review your cart">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
+            <span class="cart-count" aria-label="0 items">0</span>
+          </button>
+        </div>
+      </div>
+
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="#">Bestsellers</a>
+        <a href="#">Body</a>
+        <a href="#">Face</a>
+        <a href="#">Eyes</a>
+        <a href="#">Lips</a>
+        <a href="brush.html">Brushes &amp; Tools</a>
+        <a href="#">Sets &amp; Gifts</a>
+      </nav>
+
+      <nav class="mobile-nav" aria-label="Mobile navigation" hidden>
+        <button class="mobile-nav-close" aria-label="Close menu">&times;</button>
+        <a href="#">Bestsellers</a><a href="#">Body</a><a href="#">Face</a>
+        <a href="#">Eyes</a><a href="#">Lips</a><a href="brush.html">Brushes &amp; Tools</a>
+        <a href="#">Sets &amp; Gifts</a>
+      </nav>
+    </header>
+
+    <main id="product">
+      <div class="breadcrumbs page-width" aria-label="Breadcrumb">
+        <a href="home.html">Home</a><span>/</span><a href="#">Shop All</a><span>/</span>
+        <a href="#">Body</a><span>/</span><span>Body Coverage Perfector</span>
+      </div>
+
+      <section class="product page-width" aria-labelledby="product-title">
+        <div class="gallery" aria-label="Product gallery">
+          <div class="gallery-main">
+            <button class="gallery-arrow gallery-prev" aria-label="Previous image">&#8249;</button>
+            <img
+              id="main-product-image"
+              src="assets/Product_On_Tan_-_BOB_Award_-_2N.jpg"
+              alt="Body Coverage Perfector in 2N Natural Radiance"
+            />
+            <button class="gallery-arrow gallery-next" aria-label="Next image">&#8250;</button>
+            <span class="gallery-counter"><span id="gallery-current">2</span> / <span id="gallery-total">11</span></span>
+          </div>
+          <div class="gallery-thumbnails" role="list" aria-label="Select gallery image">
+            <button class="gallery-thumb" data-gallery-role="shade-result" data-image="assets/Results_-_2N_1.jpg" data-alt="2N Natural Radiance before and after result" aria-label="View shade result">
+              <img src="assets/Results_-_2N_1.jpg" alt="" />
+            </button>
+            <button class="gallery-thumb active" data-gallery-role="shade-hero" data-image="assets/Product_On_Tan_-_BOB_Award_-_2N_Natural_Radiance.jpg" data-alt="Body Coverage Perfector in 2N Natural Radiance" aria-label="View product image">
+              <img src="assets/Product_On_Tan_-_BOB_Award_-_2N_Natural_Radiance.jpg" alt="" />
+            </button>
+            <button class="gallery-thumb" data-image="assets/bcp_05_benefits-lifestyle.webp" data-alt="Body Coverage Perfector benefits" aria-label="View benefits image">
+              <img src="assets/bcp_05_benefits-lifestyle.webp" alt="" />
+            </button>
+            <button class="gallery-thumb" data-image="assets/bcp_07_how-to-use.webp" data-alt="How to use Body Coverage Perfector" aria-label="View how-to image">
+              <img src="assets/bcp_07_how-to-use.webp" alt="" />
+            </button>
+            <button class="gallery-thumb" data-image="assets/bcp_09_tips-and-tricks.webp" data-alt="Body Coverage Perfector tips and tricks" aria-label="View tips and tricks">
+              <img src="assets/bcp_09_tips-and-tricks.webp" alt="" />
+            </button>
+            <button class="gallery-thumb" data-image="assets/BCP_Swatches_-_ADDL_Shades.jpg" data-alt="Body Coverage Perfector shade swatches" aria-label="View shade swatches">
+              <img src="assets/BCP_Swatches_-_ADDL_Shades.jpg" alt="" />
+            </button>
+            <button class="gallery-thumb" data-image="assets/Find-Your-Shade.jpg" data-alt="Find your Body Coverage Perfector shade" aria-label="View shade guide">
+              <img src="assets/Find-Your-Shade.jpg" alt="" />
+            </button>
+            <button class="gallery-thumb" data-image="assets/bcp_06_clinical-stats.webp" data-alt="Body Coverage Perfector clinical statistics" aria-label="View clinical statistics">
+              <img src="assets/bcp_06_clinical-stats.webp" alt="" />
+            </button>
+            <button class="gallery-thumb" data-image="assets/bcp_03_conceals-before-after.webp" data-alt="Before and after Body Coverage Perfector" aria-label="View before and after">
+              <img src="assets/bcp_03_conceals-before-after.webp" alt="" />
+            </button>
+            <button class="gallery-thumb" data-image="assets/bcp_10_ingredients.webp" data-alt="Body Coverage Perfector ingredients" aria-label="View ingredients image">
+              <img src="assets/bcp_10_ingredients.webp" alt="" />
+            </button>
+            <button class="gallery-thumb" data-image="assets/Packaging_May_Vary.jpg" data-alt="Body Coverage Perfector packaging" aria-label="View packaging image">
+              <img src="assets/Packaging_May_Vary.jpg" alt="" />
+            </button>
+          </div>
+        </div>
+
+        <div class="product-info">
+          <h1 id="product-title">Body Coverage Perfector</h1>
+          <p class="eyebrow">Instant Camouflage &amp; Illuminator</p>
+          <a class="review-link" href="#reviews" aria-label="Rated 4.3 out of 5 from 10,725 reviews">
+            <span class="stars">★★★★★</span><span>4.3 (10,725)</span>
+          </a>
+
+          <fieldset class="option-group shades">
+            <legend><strong>Shade</strong> <span id="shade-name">2N Natural Radiance</span></legend>
+            <div class="shade-grid">
+              <label class="shade-option" data-shade-label="1N Light Radiance">
+                <input type="radio" name="shade" value="1N Light Radiance" data-hero="assets/Product_On_Tan_-_BOB_Award_-_1N_Light_Radiance.jpg" />
+                <img src="assets/1n-light-radiance.png" alt="1N Light Radiance" />
+              </label>
+              <label class="shade-option" data-shade-label="1C Cool Radiance">
+                <input type="radio" name="shade" value="1C Cool Radiance" data-hero="assets/Product_On_Tan_-_BOB_Award_-_1C_Cool_Radiance_9d13ef34-78a4-4aba-a6eb-d7c8f5361ac5.jpg" />
+                <img src="assets/1c-cool-radiance.png" alt="1C Cool Radiance" />
+              </label>
+              <label class="shade-option" data-shade-label="2W Warm Radiance">
+                <input type="radio" name="shade" value="2W Warm Radiance" data-hero="assets/Product_On_Tan_-_BOB_Award_-_2W_Warm_Radiance_e391911e-84e5-4f75-adda-ecdf8ed59da4.jpg" />
+                <img src="assets/2w-warm-radiance.png" alt="2W Warm Radiance" />
+              </label>
+              <label class="shade-option" data-shade-label="2N Natural Radiance">
+                <input type="radio" name="shade" value="2N Natural Radiance" data-hero="assets/Product_On_Tan_-_BOB_Award_-_2N_Natural_Radiance.jpg" checked />
+                <img src="assets/2n-natural-radiance.png" alt="2N Natural Radiance" />
+              </label>
+              <label class="shade-option" data-shade-label="3N Sunlit Radiance">
+                <input type="radio" name="shade" value="3N Sunlit Radiance" data-hero="assets/Product_On_Tan_-_BOB_Award_-_3N_Sunlit_Radiance_f1978ef6-b883-43da-bccd-180c9f7615ac.jpg" />
+                <img src="assets/3n-sunlit-radiance.png" alt="3N Sunlit Radiance" />
+              </label>
+              <label class="shade-option" data-shade-label="3W Golden Radiance">
+                <input type="radio" name="shade" value="3W Golden Radiance" data-hero="assets/Product_On_Tan_-_BOB_Award_-_3W_Golden_Radiance.jpg" />
+                <img src="assets/3w-golden-radiance.png" alt="3W Golden Radiance" />
+              </label>
+              <label class="shade-option" data-shade-label="4W Tan Radiance">
+                <input type="radio" name="shade" value="4W Tan Radiance" data-hero="assets/Product_On_Tan_-_BOB_Award_-_4W_Tan_Radiance_a5498569-7758-4437-b0cf-ffad07192ce6.jpg" />
+                <img src="assets/4w-tan-radiance.png" alt="4W Tan Radiance" />
+              </label>
+              <label class="shade-option" data-shade-label="4C Bronze Radiance">
+                <input type="radio" name="shade" value="4C Bronze Radiance" data-hero="assets/Product_On_Tan_-_BOB_Award_-_4C_Bronze_Radiance.jpg" />
+                <img src="assets/4c-bronze-radiance.png" alt="4C Bronze Radiance" />
+              </label>
+              <label class="shade-option" data-shade-label="5W Deep Radiance">
+                <input type="radio" name="shade" value="5W Deep Radiance" data-hero="assets/Product_On_Tan_-_BOB_Award_-_5W_Deep_Radiance.jpg" />
+                <img src="assets/5w-deep-radiance.png" alt="5W Deep Radiance" />
+              </label>
+              <label class="shade-option" data-shade-label="6N Rich Radiance">
+                <input type="radio" name="shade" value="6N Rich Radiance" data-hero="assets/Product_On_Tan_-_BOB_Award_-_6N_Rich_Radiance_1eae859e-3681-46b0-a30b-33d9a65c1a9b.jpg" />
+                <img src="assets/6n-rich-radiance.png" alt="6N Rich Radiance" />
+              </label>
+            </div>
+          </fieldset>
+
+          <button class="text-button shade-finder">Find My Shade</button>
+
+          <fieldset class="option-group sizes">
+            <legend><strong>Size</strong> <span id="size-name">3.4oz</span></legend>
+            <div class="size-options">
+              <label><input type="radio" name="size" value="3.4oz" data-price="49" checked /><span>3.4oz</span></label>
+            </div>
+          </fieldset>
+
+          <div class="price-line" aria-live="polite">
+            <strong id="display-price">$49.00</strong>
+          </div>
+
+          <a class="exclusive-offer-cta" href="exclusive-offer.html#offer" aria-label="Unlock the limited-time 40 percent off Body Coverage Perfector offer">
+            <span class="exclusive-offer-badge">Limited-Time Exclusive</span>
+            <strong>Double the Coverage — Unlock 40% Off</strong>
+            <small><span>Get two full-size Body Coverage Perfectors for only $59</span><b>Shop the Offer →</b></small>
+          </a>
+
+          <div class="pairing-card">
+            <p class="pairing-title">Pairs Perfectly With</p>
+            <a class="pairing-image-link" href="brush.html" aria-label="View Blend and Blur Body Brush"><img src="assets/brush_05_product-hero-tan_700172b4-301b-424c-8cae-3739234126dd.webp" alt="Blend and Blur Body Brush" /></a>
+            <div>
+              <a class="pairing-name-link" href="brush.html"><strong>Blend &amp; Blur Body Brush</strong></a>
+              <small>Extra-Large Perfecting Brush</small>
+              <span>$49.00</span>
+            </div>
+            <label class="pair-check"><input id="add-brush" type="checkbox" /><span aria-hidden="true"></span></label>
+          </div>
+
+          <button class="add-to-bag" type="button">
+            <span>Add to Bag</span><span id="button-price">$39.20</span>
+          </button>
+          <p class="shipping-note">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 7h12v10H2zM14 10h4l4 4v3h-8z"/><circle cx="7" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg>
+            Free shipping on orders $50+
+          </p>
+
+          <div class="accordions">
+            <details open>
+              <summary>Description</summary>
+              <div class="accordion-content">
+                <p><strong>Experience flawless-looking skin in minutes.</strong> Because your body deserves the same flawless-looking finish as your face, our first-of-its-kind Body Coverage Perfector delivers a luminous, even skin tone while concealing blemishes, bruises, scars, veins, and even tattoos—instantly.</p>
+                <p>Its super-silky, lightweight formula is clinically shown to be waterproof, transfer-resistant, and last for days.</p>
+              </div>
+            </details>
+            <details><summary>How to Use</summary><div class="accordion-content"><p>Apply sparingly to dry skin and blend quickly with the Body Brush using circular motions. Allow 10 minutes to set, then gently buff away any excess.</p></div></details>
+            <details><summary>Ingredients</summary><div class="accordion-content"><p>Enhanced with Hyaluronic Acid, Niacinamide, and Vitamin E. Features treated pigments and crushed pearls suspended in a flexible gel matrix.</p></div></details>
+            <details><summary>FAQ</summary><div class="accordion-content"><p>The buildable formula is waterproof once set and can be removed with an oil-based cleanser or body wash.</p></div></details>
+          </div>
+
+          <ul class="claims" aria-label="Product claims">
+            <li><img src="assets/Vegan-1.png" alt="" /><span>Vegan</span></li>
+            <li><img src="assets/Paraben_Free-1.png" alt="" /><span>Paraben Free</span></li>
+            <li><img src="assets/Fragrance_Free-1.png" alt="" /><span>Fragrance Free</span></li>
+            <li><img src="assets/Clinically_Tested-1.png" alt="" /><span>Clinically Tested</span></li>
+            <li><img src="assets/Never_Tested_on_Animals-1.png" alt="" /><span>Never Tested on Animals</span></li>
+            <li><img src="assets/Made_in_the_USA_1_-1.png" alt="" /><span>Made in the USA</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="clinical" aria-labelledby="clinical-heading">
+        <div class="page-width clinical-inner">
+          <div class="clinical-slider" aria-roledescription="carousel" aria-label="Clinical result photographs">
+            <div class="clinical-track">
+              <div class="clinical-slide" id="clinical-slide-1" role="group" aria-label="1 of 3">
+                <img src="assets/BCP_Clincial_Graphic_Position_1_2.jpg" alt="Chest before and after applying Body Coverage Perfector" />
+              </div>
+              <div class="clinical-slide" id="clinical-slide-2" role="group" aria-label="2 of 3">
+                <img src="assets/BCP_Clincial_Graphic_Position_2_1.jpg" alt="Leg before and after applying Body Coverage Perfector" />
+              </div>
+              <div class="clinical-slide" id="clinical-slide-3" role="group" aria-label="3 of 3">
+                <img src="assets/BCP_Clincial_Graphic_Position_3_1.jpg" alt="Shoulder before and after applying Body Coverage Perfector" />
+              </div>
+            </div>
+            <button class="clinical-arrow clinical-prev" type="button" aria-label="Previous clinical result">&#8249;</button>
+            <button class="clinical-arrow clinical-next" type="button" aria-label="Next clinical result">&#8250;</button>
+            <div class="clinical-dots" role="tablist" aria-label="Choose a clinical result">
+              <button class="active" type="button" role="tab" aria-selected="true" aria-controls="clinical-slide-1" aria-label="Show result 1"></button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="clinical-slide-2" aria-label="Show result 2"></button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="clinical-slide-3" aria-label="Show result 3"></button>
+            </div>
+          </div>
+          <div class="clinical-copy">
+            <h2 id="clinical-heading">Clinical Results</h2>
+            <p><strong>100% agree</strong><span>Different than any body coverage protector they’ve used previously.</span></p>
+            <p><strong>100% agree</strong><span>Covers appearance of spots, blemishes, and aging.</span></p>
+            <p><strong>96% agree</strong><span>Would use Body Coverage Protector in place of a self-tanner.</span></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="perfect-pair" aria-labelledby="pair-heading">
+        <div class="page-width pair-inner">
+          <h2 id="pair-heading">Pairs perfectly with...</h2>
+          <div class="recommendations">
+            <article class="recommendation-card">
+              <img src="assets/BCKit_OnTan_1.jpg" alt="Body Essentials Set" />
+              <div class="recommendation-copy">
+                <h3>Body Essentials Set</h3>
+                <button class="recommendation-rating" type="button" data-review-product="Body Essentials Set" aria-label="Open review summary: 4.3 out of 5 stars from 10,749 reviews"><span>★★★★☆</span> (10749)</button>
+                <strong><s>$140.00</s> $84.00</strong>
+                <button class="recommendation-select" type="button" data-quick-view="body-set">Select Shade</button>
+              </div>
+            </article>
+            <article class="recommendation-card">
+              <a class="recommendation-product-link" href="brush.html" aria-label="View Blend and Blur Body Brush"><img src="assets/brush_05_product-hero-tan_700172b4-301b-424c-8cae-3739234126dd.webp" alt="Blend and Blur Body Brush" /></a>
+              <div class="recommendation-copy">
+                <h3><a href="brush.html">Blend &amp; Blur Body Brush</a></h3>
+                <button class="recommendation-rating" type="button" data-review-product="Blend &amp; Blur Body Brush" aria-label="Open review summary: 4.8 out of 5 stars from 3,675 reviews"><span>★★★★★</span> (3675)</button>
+                <strong>$49.00</strong>
+                <button class="recommendation-select" type="button" data-quick-view="brush">Select Shade</button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="reviews page-width" id="reviews" aria-labelledby="reviews-heading">
+        <h2 class="sr-only" id="reviews-heading">Customer Reviews</h2>
+        <div class="review-summary">
+          <div class="review-score">
+            <div class="review-score-line"><strong>4.3</strong><span class="stars" aria-label="4.3 out of 5 stars">★★★★☆</span></div>
+            <p>Based on 10,746 reviews</p>
+            <button type="button" data-review-product="Body Coverage Perfector">See reviews summary</button>
+          </div>
+          <div class="rating-bars" aria-label="Rating breakdown">
+            <span><b>5 <i aria-hidden="true">★</i></b><em><u style="width:78%"></u></em><small>7,700</small></span>
+            <span><b>4 <i aria-hidden="true">★</i></b><em><u style="width:10%"></u></em><small>936</small></span>
+            <span><b>3 <i aria-hidden="true">★</i></b><em><u style="width:7%"></u></em><small>671</small></span>
+            <span><b>2 <i aria-hidden="true">★</i></b><em><u style="width:5%"></u></em><small>485</small></span>
+            <span><b>1 <i aria-hidden="true">★</i></b><em><u style="width:4%"></u></em><small>957</small></span>
+          </div>
+        </div>
+
+        <div class="reviews-listing">
+          <div class="review-toolbar">
+            <label for="review-sort">Sort by:</label>
+            <select id="review-sort" aria-label="Sort customer reviews">
+              <option value="highest">Highest rating</option>
+              <option value="lowest">Lowest rating</option>
+              <option value="newest">Most recent</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </div>
+          <div class="review-list" id="review-list" aria-live="polite"></div>
+          <nav class="review-pagination" aria-label="Customer review pages"></nav>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <div class="page-width footer-grid">
+        <div class="footer-brand">
+          <svg class="footer-monogram" viewBox="0 0 66 43" aria-hidden="true" focusable="false"><path d="M1 4h13l8.5 22 8.2-17h6.8l7.5 17L53.5 4H66L51.2 39H40.5L34 25.3 27.7 39H17z" fill="currentColor" /></svg>
+          <img src="assets/Westmore_-_Logo_CMYK_3_42fac461-62d8-4a93-a89e-ad1c92d41d40.png" alt="Westmore Beauty" />
+        </div>
+        <nav class="footer-links" aria-labelledby="footer-shop-heading"><h2 id="footer-shop-heading">Shop</h2><a href="#">Shop All</a><a href="#">Bestsellers</a><a href="#">Sets &amp; Gifts</a></nav>
+        <nav class="footer-links" aria-labelledby="footer-support-heading"><h2 id="footer-support-heading">Support</h2><a href="#">Track Your Order</a><a href="#">Returns &amp; Exchanges</a><a href="#">Customer Service</a></nav>
+      </div>
+      <div class="footer-bottom page-width"><span>&copy; 2026 Westmore Beauty Ultra, LLC All Rights Reserved</span><span><a href="#">Your Privacy Choices</a><a href="#">Terms &amp; Conditions</a><a href="#">Privacy Policy</a></span></div>
+    </footer>
+
+    <div class="drawer-backdrop" hidden></div>
+    <aside class="cart-drawer" aria-label="Shopping cart" aria-hidden="true">
+      <div class="drawer-header"><h2>Your Bag <span class="drawer-count">(0)</span></h2><button class="drawer-close" aria-label="Close cart">&times;</button></div>
+      <div class="drawer-empty">Your bag is currently empty.</div>
+      <div class="drawer-items"></div>
+      <div class="drawer-footer" hidden><div><span>Subtotal</span><strong class="drawer-subtotal">$0.00</strong></div><p>Shipping &amp; taxes calculated at checkout</p><button type="button" data-cart-checkout>Checkout</button></div>
+    </aside>
+
+    <div class="shade-modal" role="dialog" aria-modal="true" aria-labelledby="shade-modal-title" hidden>
+      <div class="shade-modal-card"><button class="shade-modal-close" aria-label="Close shade finder">&times;</button><p class="section-kicker">Shade Finder</p><h2 id="shade-modal-title">Meet your radiant match</h2><p>Choose the description closest to your natural skin tone.</p><div class="shade-quiz"><button data-recommend="1N Light Radiance">Fair / Light</button><button data-recommend="2N Natural Radiance">Light / Medium</button><button data-recommend="3W Golden Radiance">Medium / Tan</button><button data-recommend="5W Deep Radiance">Deep / Rich</button></div><p class="shade-result" aria-live="polite"></p></div>
+    </div>
+
+    <div class="quick-view-modal" data-quick-modal="body-set" role="dialog" aria-modal="true" aria-labelledby="body-set-modal-title" hidden>
+      <div class="quick-view-card">
+        <button class="quick-view-close" type="button" aria-label="Close Body Essentials Set selector">&times;</button>
+        <div class="quick-view-header">
+          <img src="assets/BCKit_OnTan_1.jpg" alt="Body Essentials Set" />
+          <div>
+            <h2 id="body-set-modal-title">Body Essentials Set</h2>
+            <p class="quick-price"><s>$140.00</s> $84.00</p>
+            <button class="quick-review-link" type="button" data-review-product="Body Essentials Set" aria-label="Open Body Essentials Set customer review summary"><span>★★★★☆</span> (10749)</button>
+          </div>
+        </div>
+        <fieldset class="quick-shades">
+          <legend><strong>Shade</strong> <span id="set-shade-name">2N Natural Radiance</span></legend>
+          <div>
+            <label data-shade-label="1N Light Radiance"><input type="radio" name="set-shade" value="1N Light Radiance" /><img src="assets/1n-light-radiance.png" alt="1N Light Radiance" /></label>
+            <label data-shade-label="1C Cool Radiance"><input type="radio" name="set-shade" value="1C Cool Radiance" /><img src="assets/1c-cool-radiance.png" alt="1C Cool Radiance" /></label>
+            <label data-shade-label="2W Warm Radiance"><input type="radio" name="set-shade" value="2W Warm Radiance" /><img src="assets/2w-warm-radiance.png" alt="2W Warm Radiance" /></label>
+            <label data-shade-label="2N Natural Radiance"><input type="radio" name="set-shade" value="2N Natural Radiance" checked /><img src="assets/2n-natural-radiance.png" alt="2N Natural Radiance" /></label>
+            <label data-shade-label="3N Sunlit Radiance"><input type="radio" name="set-shade" value="3N Sunlit Radiance" /><img src="assets/3n-sunlit-radiance.png" alt="3N Sunlit Radiance" /></label>
+            <label data-shade-label="3W Golden Radiance"><input type="radio" name="set-shade" value="3W Golden Radiance" /><img src="assets/3w-golden-radiance.png" alt="3W Golden Radiance" /></label>
+            <label data-shade-label="4W Tan Radiance"><input type="radio" name="set-shade" value="4W Tan Radiance" /><img src="assets/4w-tan-radiance.png" alt="4W Tan Radiance" /></label>
+            <label data-shade-label="4C Bronze Radiance"><input type="radio" name="set-shade" value="4C Bronze Radiance" /><img src="assets/4c-bronze-radiance.png" alt="4C Bronze Radiance" /></label>
+            <label data-shade-label="5W Deep Radiance"><input type="radio" name="set-shade" value="5W Deep Radiance" /><img src="assets/5w-deep-radiance.png" alt="5W Deep Radiance" /></label>
+            <label data-shade-label="6N Rich Radiance"><input type="radio" name="set-shade" value="6N Rich Radiance" /><img src="assets/6n-rich-radiance.png" alt="6N Rich Radiance" /></label>
+          </div>
+        </fieldset>
+        <button class="quick-add" type="button" data-add-product="Body Essentials Set">Add to Bag</button>
+      </div>
+    </div>
+
+    <div class="quick-view-modal" data-quick-modal="brush" role="dialog" aria-modal="true" aria-labelledby="brush-modal-title" hidden>
+      <div class="quick-view-card">
+        <button class="quick-view-close" type="button" aria-label="Close brush selector">&times;</button>
+        <div class="quick-view-header">
+          <a class="quick-product-link" href="brush.html" aria-label="View Blend and Blur Body Brush"><img src="assets/brush_05_product-hero-tan_700172b4-301b-424c-8cae-3739234126dd.webp" alt="Blend and Blur Body Brush" /></a>
+          <div>
+            <h2 id="brush-modal-title"><a href="brush.html">Blend &amp; Blur Body Brush</a></h2>
+            <p class="quick-price">$49.00</p>
+            <button class="quick-review-link" type="button" data-review-product="Blend &amp; Blur Body Brush" aria-label="Open Blend and Blur Body Brush customer review summary"><span>★★★★★</span> (3675)</button>
+          </div>
+        </div>
+        <fieldset class="quick-colors">
+          <legend><strong>Color</strong> <span id="brush-color-name">Gold</span></legend>
+          <div>
+            <button class="selected" type="button" data-brush-color="Gold" aria-pressed="true">Gold</button>
+            <button class="unavailable" type="button" data-brush-color="Purple" disabled aria-disabled="true" title="Purple is currently unavailable">Purple <small>Unavailable</small></button>
+          </div>
+        </fieldset>
+        <button class="quick-add" type="button" data-add-product="Blend &amp; Blur Body Brush">Add to Bag</button>
+      </div>
+    </div>
+
+    <div class="customers-say-backdrop" hidden></div>
+    <aside class="customers-say-drawer" aria-labelledby="customers-say-title" aria-hidden="true">
+      <button class="customers-say-close" type="button" aria-label="Close customer review summary">&times;</button>
+      <h2 id="customers-say-title">Customers say</h2>
+      <p class="customers-say-intro">These are the topics customers are talking about based on 10,746 customer reviews.</p>
+      <div class="customer-topic">
+        <h3><span aria-hidden="true">👍</span> Coverage</h3>
+        <p>A substantial number of customers appreciated the good coverage provided by the product, although some needed to apply more than expected.</p>
+        <strong>Mentioned in 30 of reviews</strong>
+      </div>
+      <div class="customer-topic">
+        <h3><span aria-hidden="true">👍</span> Legs</h3>
+        <p>Customers appreciated the ability to make their legs look flawless and young-looking again with this product.</p>
+        <strong>Mentioned in 6 of reviews</strong>
+      </div>
+      <div class="customer-topic">
+        <h3><span aria-hidden="true">⊖</span> Skin</h3>
+        <p>In general, customers find that this product covers well, makes their skin look flawless, and doesn’t transfer easily.</p>
+        <strong>Mentioned in 6 of reviews</strong>
+      </div>
+      <div class="customer-topic">
+        <h3><span aria-hidden="true">👍</span> Brush</h3>
+        <p>It was observed by customers that the brush is loved and highly recommended for its effectiveness and ease of use.</p>
+        <strong>Mentioned in 4 of reviews</strong>
+      </div>
+      <div class="customer-topic">
+        <h3><span aria-hidden="true">👍</span> Radiance</h3>
+        <p>It was reported by customers that the Golden Radiance is amazing and works wonders for tanning.</p>
+        <strong>Mentioned in 4 of reviews</strong>
+      </div>
+      <div class="review-highlights">
+        <h3>Reviews Highlights:</h3>
+        <blockquote>“Golden Radiance is the perfect shade for me and makes my legs look smooth, soft, and younger again.” <cite>– Melissa R.</cite></blockquote>
+        <blockquote>“This product is amazing.” <cite>– Jo P.</cite></blockquote>
+        <blockquote>“This product is easy to use, offers great coverage and makes your skin look smooth and flawless.” <cite>– Emily</cite></blockquote>
+      </div>
+    </aside>
+
+    <div class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

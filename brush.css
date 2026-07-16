@@ -1,0 +1,75 @@
+.brush-page { background: #fff; }
+.brush-page .icon-button[href] { display: grid; place-items: center; }
+.brush-product { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(390px, .92fr); gap: 66px; align-items: start; padding-bottom: 58px; }
+.brush-gallery { min-width: 0; position: sticky; top: 20px; }
+.brush-gallery-main { aspect-ratio: 1; position: relative; overflow: hidden; background: #f8f1ed; }
+.brush-gallery-main > img { width: 100%; height: 100%; object-fit: cover; transition: opacity .18s ease; }
+.brush-gallery-arrow { position: absolute; z-index: 2; top: 50%; width: 42px; height: 58px; border: 0; background: #fffc; transform: translateY(-50%); font: 36px/1 Arial, sans-serif; cursor: pointer; opacity: 0; transition: opacity .2s ease; }
+.brush-gallery:hover .brush-gallery-arrow, .brush-gallery-arrow:focus-visible { opacity: 1; }
+.brush-gallery-prev { left: 10px; }.brush-gallery-next { right: 10px; }
+.brush-gallery-count { position: absolute; right: 14px; bottom: 14px; background: #fffd; padding: 5px 10px; font-size: 13px; }
+.brush-thumbnails { display: grid; grid-template-columns: repeat(8, 1fr); gap: 7px; margin-top: 9px; }
+.brush-thumb { aspect-ratio: 1; border: 1px solid transparent; padding: 0; background: #f8f1ed; overflow: hidden; cursor: pointer; }
+.brush-thumb.is-active { border: 2px solid var(--ink); }
+.brush-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.brush-info { padding-top: 24px; }
+.brush-info h1 { font-size: clamp(34px, 4vw, 52px); max-width: 520px; }
+.brush-info .eyebrow { margin: 9px 0 6px; }
+.brush-review-link { display: inline-flex; align-items: center; gap: 9px; border: 0; background: transparent; padding: 0; margin: 8px 0 27px; cursor: pointer; }
+.brush-review-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.brush-colors { border: 0; padding: 0; margin: 0 0 18px; }
+.brush-colors legend { margin-bottom: 11px; }.brush-colors legend strong { text-transform: uppercase; }
+.brush-colors > div { display: flex; gap: 11px; }
+.brush-color-choice { position: relative; cursor: pointer; }
+.brush-color-choice input { position: absolute; opacity: 0; pointer-events: none; }
+.brush-color-choice > span { min-width: 95px; min-height: 52px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #c9b59f; border-radius: 999px; padding: 10px 16px; }
+.brush-color-choice i { width: 15px; height: 15px; display: inline-block; border-radius: 50%; background: linear-gradient(135deg, #e2c75f, #a17817); box-shadow: inset 0 0 0 1px #0002; }
+.brush-color-choice input:checked + span { border: 1.5px solid var(--ink); background: var(--lilac-pale); }
+.brush-color-choice.unavailable { cursor: not-allowed; color: #6c6c70; }
+.brush-color-choice.unavailable > span { background: linear-gradient(135deg, #f0f1f2, #c4c8cc 50%, #eef0f1); border-color: #aaa; opacity: .82; }
+.brush-color-choice.unavailable i { background: linear-gradient(135deg, #e8e8ea, #8c9095); }
+.brush-color-choice small { display: block; font-size: 9px; line-height: 1; text-transform: uppercase; }
+.brush-price { margin: 12px 0 18px; font-size: 21px; }
+.brush-add-to-bag { width: 100%; border: 0; background: var(--ink); color: #fff; display: flex; justify-content: space-between; padding: 17px 20px; font-weight: 700; text-transform: uppercase; letter-spacing: .045em; cursor: pointer; transition: background .2s ease; }
+.brush-add-to-bag:hover { background: #393348; }
+.brush-shipping-note { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 12px 0 24px; font-size: 14px; }
+.brush-shipping-note svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.brush-feature-band { background: var(--lilac); padding: 52px 0; }
+.brush-feature-inner { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: 72px; }
+.brush-feature-inner h2, .brush-detail-gallery h2, .brush-pair h2 { font-size: clamp(34px, 4vw, 54px); line-height: 1.02; }
+.brush-feature-inner p:not(.section-kicker) { max-width: 520px; font-size: 18px; line-height: 1.45; }
+.brush-feature-inner ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 24px; text-transform: uppercase; font-weight: 700; }
+.brush-feature-inner li::before { content: "✓"; margin-right: 8px; }
+.brush-feature-inner img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.brush-detail-gallery { padding-block: 72px; text-align: center; }
+.brush-detail-gallery h2 { max-width: 760px; margin: 0 auto 34px; }
+.brush-detail-gallery > div { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.brush-detail-gallery img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.brush-pair { background: #f6f1ee; padding: 55px 0; }
+.brush-pair-inner { display: grid; grid-template-columns: minmax(280px, .9fr) 1.1fr; gap: 68px; align-items: center; }
+.brush-pair-inner > a img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.brush-pair-inner p:not(.section-kicker) { max-width: 490px; font-size: 18px; }
+.brush-pair-inner strong { display: block; margin: 15px 0; font-size: 19px; }
+.brush-pair-button { display: inline-block; min-width: 155px; text-align: center; padding: 14px 22px; border-radius: 6px; background: var(--ink); color: #fff; text-decoration: none; text-transform: uppercase; font-weight: 700; }
+.brush-reviews { padding-top: 78px; }
+.brush-summary-drawer { width: min(92vw, 440px); }
+.brush-summary-drawer .customer-topic h3 span { color: #387057; font-weight: 700; }
+
+@media (max-width: 900px) {
+  .brush-product { grid-template-columns: 1fr; gap: 25px; }
+  .brush-gallery { position: static; }
+  .brush-info { padding-top: 0; }
+  .brush-feature-inner, .brush-pair-inner { grid-template-columns: 1fr; gap: 32px; }
+  .brush-feature-inner img { order: -1; }
+  .brush-detail-gallery > div { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .brush-product { padding-bottom: 40px; }
+  .brush-thumbnails { grid-template-columns: repeat(4, 1fr); }
+  .brush-gallery-arrow { opacity: 1; width: 36px; height: 48px; }
+  .brush-feature-band, .brush-pair { padding-block: 38px; }
+  .brush-feature-inner ul { grid-template-columns: 1fr; }
+  .brush-detail-gallery { padding-block: 48px; }
+  .brush-detail-gallery > div { gap: 7px; }
+  .brush-reviews .review-summary { grid-template-columns: 1fr; }
+}

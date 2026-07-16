@@ -1,0 +1,158 @@
+const brush$ = (selector, scope = document) => scope.querySelector(selector);
+const brush$$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
+
+const brushState = { galleryIndex: 0, color: "Gold", price: 49, quantity: 0, reviewPage: 1, reviewSort: "highest" };
+const brushStoreCart = window.WestmoreCart;
+const brushThumbs = brush$$(".brush-thumb");
+const brushMainImage = brush$("#brush-main-image");
+
+function selectBrushImage(index) {
+  brushState.galleryIndex = (index + brushThumbs.length) % brushThumbs.length;
+  const thumb = brushThumbs[brushState.galleryIndex];
+  brushThumbs.forEach((item) => item.classList.toggle("is-active", item === thumb));
+  brushMainImage.style.opacity = ".45";
+  window.setTimeout(() => {
+    brushMainImage.src = thumb.dataset.image;
+    brushMainImage.alt = thumb.dataset.alt;
+    brushMainImage.style.opacity = "1";
+  }, 90);
+  brush$("#brush-gallery-current").textContent = String(brushState.galleryIndex + 1);
+}
+
+brushThumbs.forEach((thumb, index) => thumb.addEventListener("click", () => selectBrushImage(index)));
+brush$(".brush-gallery-prev").addEventListener("click", () => selectBrushImage(brushState.galleryIndex - 1));
+brush$(".brush-gallery-next").addEventListener("click", () => selectBrushImage(brushState.galleryIndex + 1));
+
+brush$$("input[name='brush-color']").forEach((input) => {
+  input.addEventListener("change", () => {
+    brushState.color = input.value;
+    brushState.price = Number(input.dataset.price);
+    brush$("#brush-selected-color").textContent = input.value;
+    brush$("#brush-price").textContent = `$${brushState.price.toFixed(2)}`;
+    brush$("#brush-button-price").textContent = `$${brushState.price.toFixed(2)}`;
+    const index = brushThumbs.findIndex((thumb) => thumb.dataset.image === input.dataset.image);
+    if (index >= 0) selectBrushImage(index);
+  });
+});
+
+const brushMobileNav = brush$(".mobile-nav");
+function setBrushMenu(open) {
+  brushMobileNav.hidden = !open;
+  brush$(".menu-button").setAttribute("aria-expanded", String(open));
+  document.body.classList.toggle("no-scroll", open);
+}
+brush$(".menu-button").addEventListener("click", () => setBrushMenu(true));
+brush$(".mobile-nav-close").addEventListener("click", () => setBrushMenu(false));
+brush$$(".mobile-nav a").forEach((link) => link.addEventListener("click", () => setBrushMenu(false)));
+
+const brushDrawer = brush$(".cart-drawer");
+const brushBackdrop = brush$(".drawer-backdrop");
+function setBrushDrawer(open) {
+  brushDrawer.classList.toggle("open", open);
+  brushDrawer.setAttribute("aria-hidden", String(!open));
+  brushBackdrop.hidden = !open;
+  document.body.classList.toggle("no-scroll", open);
+}
+function renderBrushCart() {
+  brushStoreCart.renderGenericCart();
+}
+brushStoreCart.subscribe(renderBrushCart);
+renderBrushCart();
+
+brush$(".brush-add-to-bag").addEventListener("click", () => {
+  brushStoreCart.add({
+    key: `blend-blur-body-brush|${brushState.color}`,
+    name: "Blend & Blur Body Brush",
+    detail: brushState.color,
+    image: brushState.color === "Gold" ? "assets/brush/gold-hero.webp" : "assets/brush/purple-hero.jpg",
+    url: "brush.html",
+    price: brushState.price,
+  });
+  setBrushDrawer(true);
+});
+brush$(".cart-button").addEventListener("click", () => setBrushDrawer(true));
+brush$(".drawer-close").addEventListener("click", () => setBrushDrawer(false));
+brushBackdrop.addEventListener("click", () => setBrushDrawer(false));
+
+const reviewTemplates = [
+  ["Rachel W.", 5, "This blend brush is fantastic", "It evenly applies the Body Coverage Perfector and the handle fits perfectly in my hand. The finish looks smooth and natural."],
+  ["Leah B.", 5, "Soft and beautifully made", "The brush is soft and big enough to cover large areas quickly. The ergonomic handle makes application very easy."],
+  ["Nichole B.", 5, "Blends perfectly", "It blends the color well and feels good at the same time. I get an even finish without streaks."],
+  ["Christina A.", 5, "A high-quality tool", "It helps create a smooth look throughout the body and makes the entire application feel professional."],
+  ["Susan Y.", 5, "Highly recommend the brush", "It moves the product around beautifully and helps me use less while still getting excellent coverage."],
+  ["Andrea M.", 4, "Great oversized brush", "The head covers my legs quickly and the fibers stay soft. It is much easier than applying product by hand."],
+  ["Monica R.", 5, "Flawless finish", "This is the tool that made Body Coverage Perfector work for me. It blends around my knees and ankles beautifully."],
+  ["Tina C.", 5, "Easy to hold", "The curved handle is comfortable and makes it simple to reach my shoulders and the backs of my legs."],
+  ["Beth F.", 4, "Dense but gentle", "The bristles are dense enough to move product but still feel gentle on my skin. Cleaning it is straightforward."],
+  ["Linda P.", 5, "Worth adding to the routine", "Application is faster, smoother and much more even. I would not use the body coverage product without it now."]
+];
+const brushReviews = Array.from({ length: 50 }, (_, index) => {
+  const source = reviewTemplates[index % reviewTemplates.length];
+  const month = String(((index * 3) % 12) + 1).padStart(2, "0");
+  const day = String(((index * 7) % 27) + 1).padStart(2, "0");
+  return { id: index + 1, name: source[0], rating: source[1], title: source[2], body: source[3], date: `${month}/${day}/26` };
+});
+const brushReviewsPerPage = 5;
+
+function sortedBrushReviews() {
+  const reviews = [...brushReviews];
+  if (brushState.reviewSort === "lowest") return reviews.sort((a, b) => a.rating - b.rating || a.id - b.id);
+  if (brushState.reviewSort === "newest") return reviews.sort((a, b) => b.id - a.id);
+  if (brushState.reviewSort === "oldest") return reviews.sort((a, b) => a.id - b.id);
+  return reviews.sort((a, b) => b.rating - a.rating || b.id - a.id);
+}
+
+function renderBrushReviews() {
+  const sorted = sortedBrushReviews();
+  const start = (brushState.reviewPage - 1) * brushReviewsPerPage;
+  const visible = sorted.slice(start, start + brushReviewsPerPage);
+  brush$("#brush-review-list").innerHTML = visible.map((review) => `
+    <article class="review-row">
+      <div class="review-author"><p><strong>${review.name}</strong>, US</p><span class="verified-buyer">Verified Buyer</span></div>
+      <div class="review-copy"><div class="review-heading"><span class="stars" aria-label="${review.rating} out of 5 stars">${"★".repeat(review.rating)}${"☆".repeat(5 - review.rating)}</span><h3>${review.title}</h3></div><p>${review.body}</p></div>
+      <time class="review-date" datetime="2026-${review.date.slice(0, 2)}-${review.date.slice(3, 5)}">${review.date}</time>
+    </article>`).join("");
+  renderBrushPagination();
+}
+
+function renderBrushPagination() {
+  const pageCount = Math.ceil(brushReviews.length / brushReviewsPerPage);
+  const pagination = brush$("#brush-review-pagination");
+  pagination.innerHTML = "";
+  const previous = document.createElement("button");
+  previous.type = "button"; previous.textContent = "‹"; previous.disabled = brushState.reviewPage === 1; previous.setAttribute("aria-label", "Previous review page");
+  previous.addEventListener("click", () => { brushState.reviewPage -= 1; renderBrushReviews(); });
+  pagination.append(previous);
+  for (let page = 1; page <= pageCount; page += 1) {
+    const button = document.createElement("button");
+    button.type = "button"; button.textContent = String(page); button.classList.toggle("active", page === brushState.reviewPage); button.setAttribute("aria-label", `Review page ${page}`); button.setAttribute("aria-current", page === brushState.reviewPage ? "page" : "false");
+    button.addEventListener("click", () => { brushState.reviewPage = page; renderBrushReviews(); brush$("#brush-reviews").scrollIntoView({ behavior: "smooth", block: "start" }); });
+    pagination.append(button);
+  }
+  const next = document.createElement("button");
+  next.type = "button"; next.textContent = "›"; next.disabled = brushState.reviewPage === pageCount; next.setAttribute("aria-label", "Next review page");
+  next.addEventListener("click", () => { brushState.reviewPage += 1; renderBrushReviews(); });
+  pagination.append(next);
+}
+
+brush$("#brush-review-sort").addEventListener("change", (event) => { brushState.reviewSort = event.target.value; brushState.reviewPage = 1; renderBrushReviews(); });
+renderBrushReviews();
+
+const summaryDrawer = brush$(".customers-say-drawer");
+const summaryBackdrop = brush$(".customers-say-backdrop");
+function setSummary(open) {
+  summaryDrawer.classList.toggle("open", open);
+  summaryDrawer.setAttribute("aria-hidden", String(!open));
+  summaryBackdrop.hidden = !open;
+  document.body.classList.toggle("no-scroll", open);
+}
+brush$$("[data-open-review-summary]").forEach((button) => button.addEventListener("click", () => setSummary(true)));
+brush$(".customers-say-close").addEventListener("click", () => setSummary(false));
+summaryBackdrop.addEventListener("click", () => setSummary(false));
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") return;
+  setBrushMenu(false);
+  setBrushDrawer(false);
+  setSummary(false);
+});

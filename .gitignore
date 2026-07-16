@@ -1,0 +1,16 @@
+# Local development and dependency files
+node_modules/
+*.log
+
+# Environment files may contain credentials
+.env
+.env.*
+!.env.example
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Codex workspace metadata
+.agents/
