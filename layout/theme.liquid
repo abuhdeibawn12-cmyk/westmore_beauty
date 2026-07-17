@@ -53,6 +53,7 @@
   >
     {{ content_for_layout }}
 
+    {% render 'westmore-commerce-catalog' %}
     <script src="{{ 'westmore-cart.js' | asset_url }}" defer></script>
     {%- case westmore_view -%}
       {%- when 'home' -%}

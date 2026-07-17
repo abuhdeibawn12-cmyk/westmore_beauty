@@ -1,0 +1,49 @@
+{%- liquid
+  assign westmore_body = all_products['body-coverage-perfector']
+  assign westmore_brush = all_products['blend-blur-body-brush']
+  assign westmore_set = all_products['body-essentials-set']
+  assign westmore_offer = all_products['body-coverage-perfector-exclusive-offer']
+  assign westmore_addon = all_products['blend-blur-body-brush-exclusive-addon']
+-%}
+<script id="westmore-commerce-catalog" type="application/json">
+{
+  "root": {{ routes.root_url | default: '/' | json }},
+  "products": {
+    "body-coverage-perfector": {
+      "variants": {
+        {%- for variant in westmore_body.variants -%}
+          {{ variant.option1 | json }}: {{ variant.id | json }}{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      }
+    },
+    "blend-blur-body-brush": {
+      "variants": {
+        {%- for variant in westmore_brush.variants -%}
+          {{ variant.option1 | json }}: {{ variant.id | json }}{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      }
+    },
+    "body-essentials-set": {
+      "variants": {
+        {%- for variant in westmore_set.variants -%}
+          {{ variant.option1 | json }}: {{ variant.id | json }}{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      }
+    },
+    "body-coverage-perfector-exclusive-offer": {
+      "variants": {
+        {%- for variant in westmore_offer.variants -%}
+          {{ variant.option1 | json }}: {{ variant.id | json }}{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      }
+    },
+    "blend-blur-body-brush-exclusive-addon": {
+      "variants": {
+        {%- for variant in westmore_addon.variants -%}
+          {{ variant.option1 | json }}: {{ variant.id | json }}{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      }
+    }
+  }
+}
+</script>

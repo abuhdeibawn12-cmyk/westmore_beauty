@@ -1,9 +1,25 @@
 (function initializeWestmoreCart() {
-  const storageKey = "westmore-cart-v1";
   const listeners = new Set();
   const productRoute = "/collections/all?view=body-coverage-perfector";
   const brushRoute = "/collections/all?view=blend-blur-body-brush";
   const offerRoute = "/collections/all?view=bodycoverageperfector-exclusiveoffer";
+  const catalogElement = document.querySelector("#westmore-commerce-catalog");
+
+  let catalog = { root: "/", products: {} };
+  let items = [];
+  let cartState = { item_count: 0, total_price: 0, items: [] };
+  let readyResolve;
+  const ready = new Promise((resolve) => { readyResolve = resolve; });
+
+  try {
+    if (catalogElement?.textContent) catalog = JSON.parse(catalogElement.textContent);
+  } catch (error) {
+    console.error("Unable to read the Shopify product catalog.", error);
+  }
+
+  const root = String(window.Shopify?.routes?.root || catalog.root || "/").replace(/\/?$/, "/");
+  const money = (value) => `$${Number(value).toFixed(2)}`;
+  const cloneItems = () => items.map((item) => ({ ...item, properties: { ...item.properties } }));
 
   function normalizeUrl(value) {
     return String(value || "")
@@ -12,69 +28,128 @@
       .replace("/products/blend-blur-body-brush", brushRoute);
   }
 
-  function readItems() {
-    try {
-      const parsed = JSON.parse(window.localStorage.getItem(storageKey) || "[]");
-      if (!Array.isArray(parsed)) return [];
-      return parsed.filter((item) => item && item.key && Number(item.quantity) > 0).map((item) => ({
-        key: String(item.key),
-        name: String(item.name || "Product"),
-        detail: String(item.detail || ""),
-        image: String(item.image || ""),
-        url: normalizeUrl(item.url),
-        price: Math.max(0, Number(item.price) || 0),
-        quantity: Math.max(1, Math.floor(Number(item.quantity) || 1)),
-      }));
-    } catch {
-      return [];
+  function privateProperty(properties, name, fallback = "") {
+    const value = properties && properties[name];
+    return value == null ? fallback : String(value);
+  }
+
+  function normalizeCart(cart) {
+    cartState = cart || { item_count: 0, total_price: 0, items: [] };
+    items = (cartState.items || []).map((line) => {
+      const properties = line.properties || {};
+      const customKey = privateProperty(properties, "_westmore_key", line.key);
+      const fallbackImage = line.featured_image?.url || line.image || "";
+      return {
+        key: customKey,
+        lineKey: String(line.key),
+        variantId: Number(line.variant_id || line.id),
+        productHandle: String(line.handle || ""),
+        name: privateProperty(properties, "_westmore_name", line.product_title || "Product"),
+        detail: privateProperty(
+          properties,
+          "_westmore_detail",
+          line.variant_title && line.variant_title !== "Default Title" ? line.variant_title : ""
+        ),
+        image: privateProperty(properties, "_westmore_image", fallbackImage),
+        url: normalizeUrl(privateProperty(properties, "_westmore_url", line.url || "")),
+        price: Number(line.final_price ?? line.price ?? 0) / 100,
+        quantity: Math.max(1, Number(line.quantity) || 1),
+        properties,
+      };
+    });
+  }
+
+  function notify() {
+    const snapshot = cloneItems();
+    listeners.forEach((listener) => listener(snapshot));
+    window.dispatchEvent(new CustomEvent("westmore:cart-updated", {
+      detail: { items: snapshot, count: getCount(), subtotal: getSubtotal() },
+    }));
+  }
+
+  async function cartRequest(path, options = {}) {
+    const response = await fetch(`${root}${path}`, {
+      credentials: "same-origin",
+      headers: {
+        Accept: "application/json",
+        ...(options.body ? { "Content-Type": "application/json" } : {}),
+      },
+      ...options,
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const message = payload.description || payload.message || "Shopify could not update your bag.";
+      throw new Error(message);
     }
+    return payload;
   }
 
-  let items = readItems();
-  const money = (value) => `$${Number(value).toFixed(2)}`;
-  const cloneItems = () => items.map((item) => ({ ...item }));
-
-  function saveAndNotify() {
-    window.localStorage.setItem(storageKey, JSON.stringify(items));
-    listeners.forEach((listener) => listener(cloneItems()));
+  function resolveVariantId(productHandle, option) {
+    const variants = catalog.products?.[productHandle]?.variants || {};
+    const variantId = Number(variants[option] || variants["Default Title"] || Object.values(variants)[0]);
+    if (!variantId) {
+      throw new Error("This product is being connected to checkout. Please refresh and try again shortly.");
+    }
+    return variantId;
   }
 
-  function add(item, quantity = 1) {
+  function buildShopifyItem(item, quantity) {
     const safeQuantity = Math.max(1, Math.floor(Number(quantity) || 1));
-    const existing = items.find((line) => line.key === item.key);
-    if (existing) {
-      existing.quantity += safeQuantity;
-      existing.name = String(item.name || existing.name);
-      existing.detail = String(item.detail || existing.detail);
-      existing.image = String(item.image || existing.image);
-      existing.url = normalizeUrl(item.url || existing.url);
-      existing.price = Math.max(0, Number(item.price) || existing.price);
-    } else {
-      items.push({
-        key: String(item.key),
-        name: String(item.name || "Product"),
-        detail: String(item.detail || ""),
-        image: String(item.image || ""),
-        url: normalizeUrl(item.url),
-        price: Math.max(0, Number(item.price) || 0),
-        quantity: safeQuantity,
-      });
-    }
-    saveAndNotify();
+    const variantId = Number(item.variantId) || resolveVariantId(item.productHandle, item.option);
+    return {
+      id: variantId,
+      quantity: safeQuantity,
+      properties: {
+        _westmore_key: String(item.key || `${item.productHandle}|${item.option || variantId}`),
+        _westmore_name: String(item.name || "Product"),
+        _westmore_detail: String(item.detail || ""),
+        _westmore_image: String(item.image || ""),
+        _westmore_url: normalizeUrl(item.url),
+      },
+    };
   }
 
-  function setQuantity(key, quantity) {
-    const line = items.find((item) => item.key === key);
-    if (!line) return;
-    const nextQuantity = Math.floor(Number(quantity) || 0);
-    if (nextQuantity <= 0) items = items.filter((item) => item.key !== key);
-    else line.quantity = nextQuantity;
-    saveAndNotify();
+  async function refresh() {
+    const cart = await cartRequest("cart.js");
+    normalizeCart(cart);
+    notify();
+    return cloneItems();
   }
 
-  function remove(key) {
-    items = items.filter((item) => item.key !== key);
-    saveAndNotify();
+  async function addMany(entries) {
+    await ready;
+    const shopifyItems = entries.map(({ item, quantity = 1 }) => buildShopifyItem(item, quantity));
+    await cartRequest("cart/add.js", {
+      method: "POST",
+      body: JSON.stringify({ items: shopifyItems }),
+    });
+    return refresh();
+  }
+
+  async function add(item, quantity = 1) {
+    return addMany([{ item, quantity }]);
+  }
+
+  function findLine(key) {
+    return items.find((item) => item.key === key || item.lineKey === key);
+  }
+
+  async function setQuantity(key, quantity) {
+    await ready;
+    const line = findLine(key);
+    if (!line) return cloneItems();
+    const safeQuantity = Math.max(0, Math.floor(Number(quantity) || 0));
+    const cart = await cartRequest("cart/change.js", {
+      method: "POST",
+      body: JSON.stringify({ id: line.lineKey, quantity: safeQuantity }),
+    });
+    normalizeCart(cart);
+    notify();
+    return cloneItems();
+  }
+
+  async function remove(key) {
+    return setQuantity(key, 0);
   }
 
   function getCount() {
@@ -82,7 +157,12 @@
   }
 
   function getSubtotal() {
-    return items.reduce((total, item) => total + item.price * item.quantity, 0);
+    return Number(cartState.total_price || 0) / 100;
+  }
+
+  function checkout() {
+    if (getCount() === 0) return;
+    window.location.assign(`${root}checkout`);
   }
 
   function createProductLink(item, className, child) {
@@ -154,7 +234,7 @@
     const itemsContainer = document.querySelector(options.items || ".drawer-items");
     const footer = document.querySelector(options.footer || ".drawer-footer");
     const subtotal = document.querySelector(options.subtotal || ".drawer-subtotal");
-    const checkout = document.querySelector(options.checkout || "[data-cart-checkout]");
+    const checkoutButton = document.querySelector(options.checkout || "[data-cart-checkout]");
     const count = getCount();
 
     countBadges.forEach((badge) => {
@@ -166,37 +246,29 @@
     if (empty) empty.hidden = count > 0;
     if (footer) footer.hidden = count === 0;
     if (subtotal) subtotal.textContent = money(getSubtotal());
-    if (checkout) {
-      checkout.disabled = count === 0;
-      if (!checkout.dataset.cartCheckoutBound) {
-        checkout.dataset.cartCheckoutBound = "true";
-        checkout.addEventListener("click", () => {
-          if (getCount() === 0) return;
-          let status = document.querySelector(".cart-checkout-status") || document.querySelector(".toast");
-          if (!status) {
-            status = document.createElement("div");
-            status.className = "toast cart-checkout-status";
-            status.setAttribute("role", "status");
-            status.setAttribute("aria-live", "polite");
-            document.body.append(status);
-          }
-          status.textContent = "Checkout is ready for business testing.";
-          status.classList.add("show");
-          window.setTimeout(() => status.classList.remove("show"), 2600);
-          window.dispatchEvent(new CustomEvent("westmore:checkout", { detail: { items: cloneItems(), subtotal: getSubtotal() } }));
-        });
+    if (checkoutButton) {
+      checkoutButton.disabled = count === 0;
+      if (!checkoutButton.dataset.cartCheckoutBound) {
+        checkoutButton.dataset.cartCheckoutBound = "true";
+        checkoutButton.addEventListener("click", checkout);
       }
     }
     if (itemsContainer) {
       itemsContainer.replaceChildren(...items.map(createGenericLine));
-      itemsContainer.onclick = (event) => {
+      itemsContainer.onclick = async (event) => {
         const button = event.target.closest("button[data-cart-action]");
         const line = button?.closest("[data-cart-key]");
-        const item = line && items.find((entry) => entry.key === line.dataset.cartKey);
+        const item = line && findLine(line.dataset.cartKey);
         if (!button || !item) return;
-        if (button.dataset.cartAction === "increase") setQuantity(item.key, item.quantity + 1);
-        if (button.dataset.cartAction === "decrease") setQuantity(item.key, item.quantity - 1);
-        if (button.dataset.cartAction === "remove") remove(item.key);
+        button.disabled = true;
+        try {
+          if (button.dataset.cartAction === "increase") await setQuantity(item.key, item.quantity + 1);
+          if (button.dataset.cartAction === "decrease") await setQuantity(item.key, item.quantity - 1);
+          if (button.dataset.cartAction === "remove") await remove(item.key);
+        } catch (error) {
+          window.dispatchEvent(new CustomEvent("westmore:cart-error", { detail: { message: error.message } }));
+          button.disabled = false;
+        }
       };
     }
   }
@@ -206,21 +278,27 @@
     return () => listeners.delete(listener);
   }
 
-  window.addEventListener("storage", (event) => {
-    if (event.key !== storageKey) return;
-    items = readItems();
-    listeners.forEach((listener) => listener(cloneItems()));
-  });
-
   window.WestmoreCart = {
     add,
+    addMany,
     remove,
     setQuantity,
+    refresh,
+    ready,
+    checkout,
     getItems: cloneItems,
     getCount,
     getSubtotal,
     money,
     renderGenericCart,
     subscribe,
+    resolveVariantId,
   };
+
+  refresh()
+    .catch((error) => {
+      console.error("Unable to load the Shopify cart.", error);
+      window.dispatchEvent(new CustomEvent("westmore:cart-error", { detail: { message: error.message } }));
+    })
+    .finally(readyResolve);
 })();

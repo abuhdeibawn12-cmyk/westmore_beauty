@@ -59,16 +59,26 @@ function renderBrushCart() {
 brushStoreCart.subscribe(renderBrushCart);
 renderBrushCart();
 
-brush$(".brush-add-to-bag").addEventListener("click", () => {
-  brushStoreCart.add({
-    key: `blend-blur-body-brush|${brushState.color}`,
-    name: "Blend & Blur Body Brush",
-    detail: brushState.color,
-    image: brushState.color === "Gold" ? "{{ 'brush-gold-hero.webp' | asset_url }}" : "{{ 'brush-purple-hero.jpg' | asset_url }}",
-    url: "/collections/all?view=blend-blur-body-brush",
-    price: brushState.price,
-  });
-  setBrushDrawer(true);
+brush$(".brush-add-to-bag").addEventListener("click", async () => {
+  const button = brush$(".brush-add-to-bag");
+  button.disabled = true;
+  try {
+    await brushStoreCart.add({
+      key: `blend-blur-body-brush|${brushState.color}`,
+      productHandle: "blend-blur-body-brush",
+      option: brushState.color,
+      name: "Blend & Blur Body Brush",
+      detail: brushState.color,
+      image: brushState.color === "Gold" ? "{{ 'brush-gold-hero.webp' | asset_url }}" : "{{ 'brush-purple-hero.jpg' | asset_url }}",
+      url: "/collections/all?view=blend-blur-body-brush",
+      price: brushState.price,
+    });
+    setBrushDrawer(true);
+  } catch (error) {
+    window.alert(error.message);
+  } finally {
+    button.disabled = false;
+  }
 });
 brush$(".cart-button").addEventListener("click", () => setBrushDrawer(true));
 brush$(".drawer-close").addEventListener("click", () => setBrushDrawer(false));

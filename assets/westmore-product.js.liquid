@@ -100,23 +100,31 @@ $$('input[name="purchase"]').forEach((input) => {
   });
 });
 
-$("#add-brush").addEventListener("change", () => {
+$("#add-brush").addEventListener("change", async () => {
   const brushLine = storeCart.getItems().find((item) => item.key === "blend-blur-body-brush|Gold");
-  if ($("#add-brush").checked) {
-    storeCart.add({
-      key: "blend-blur-body-brush|Gold",
-      name: "Blend & Blur Body Brush",
-      detail: "Gold",
-      image: "{{ 'brush-gold-hero.webp' | asset_url }}",
-      url: "/collections/all?view=blend-blur-body-brush",
-      price: 49,
-    });
-    pairingBrushAdded = true;
-    setDrawer(true);
-    showToast("Blend & Blur Body Brush added to your bag");
-  } else if (pairingBrushAdded && brushLine) {
-    storeCart.setQuantity(brushLine.key, brushLine.quantity - 1);
+  try {
+    if ($("#add-brush").checked) {
+      await storeCart.add({
+        key: "blend-blur-body-brush|Gold",
+        productHandle: "blend-blur-body-brush",
+        option: "Gold",
+        name: "Blend & Blur Body Brush",
+        detail: "Gold",
+        image: "{{ 'brush-gold-hero.webp' | asset_url }}",
+        url: "/collections/all?view=blend-blur-body-brush",
+        price: 49,
+      });
+      pairingBrushAdded = true;
+      setDrawer(true);
+      showToast("Blend & Blur Body Brush added to your bag");
+    } else if (pairingBrushAdded && brushLine) {
+      await storeCart.setQuantity(brushLine.key, brushLine.quantity - 1);
+      pairingBrushAdded = false;
+    }
+  } catch (error) {
+    $("#add-brush").checked = false;
     pairingBrushAdded = false;
+    showToast(error.message);
   }
   updatePricing();
 });
@@ -184,29 +192,42 @@ function renderCart() {
 }
 storeCart.subscribe(renderCart);
 
-$(".add-to-bag").addEventListener("click", () => {
-  const plan = state.purchase === "subscription"
-    ? `Subscribe & Save 20% · ${$("#delivery-frequency").value}`
-    : "One-time purchase";
-  storeCart.add({
-    key: `body-coverage-perfector|${state.shade}|${state.size}|${state.purchase}`,
-    name: "Body Coverage Perfector",
-    detail: `${state.shade} / ${state.size} · ${plan}`,
-    image: $('input[name="shade"]:checked').dataset.hero,
-    url: "/collections/all?view=body-coverage-perfector",
-    price: currentPrice(),
-  });
-  if ($("#add-brush").checked && !pairingBrushAdded) {
-    storeCart.add({
-      key: "blend-blur-body-brush|Gold",
-      name: "Blend & Blur Body Brush",
-      detail: "Gold",
-      image: "{{ 'brush-gold-hero.webp' | asset_url }}",
-      url: "/collections/all?view=blend-blur-body-brush",
-      price: 49,
+$(".add-to-bag").addEventListener("click", async () => {
+  const button = $(".add-to-bag");
+  button.disabled = true;
+  try {
+    const plan = state.purchase === "subscription"
+      ? `Subscribe & Save 20% · ${$("#delivery-frequency").value}`
+      : "One-time purchase";
+    await storeCart.add({
+      key: `body-coverage-perfector|${state.shade}|${state.size}|${state.purchase}`,
+      productHandle: "body-coverage-perfector",
+      option: state.shade,
+      name: "Body Coverage Perfector",
+      detail: `${state.shade} / ${state.size} · ${plan}`,
+      image: $('input[name="shade"]:checked').dataset.hero,
+      url: "/collections/all?view=body-coverage-perfector",
+      price: currentPrice(),
     });
+    if ($("#add-brush").checked && !pairingBrushAdded) {
+      await storeCart.add({
+        key: "blend-blur-body-brush|Gold",
+        productHandle: "blend-blur-body-brush",
+        option: "Gold",
+        name: "Blend & Blur Body Brush",
+        detail: "Gold",
+        image: "{{ 'brush-gold-hero.webp' | asset_url }}",
+        url: "/collections/all?view=blend-blur-body-brush",
+        price: 49,
+      });
+      pairingBrushAdded = true;
+    }
+    setDrawer(true);
+  } catch (error) {
+    showToast(error.message);
+  } finally {
+    button.disabled = false;
   }
-  setDrawer(true);
 });
 $(".cart-button").addEventListener("click", () => setDrawer(true));
 $(".drawer-close").addEventListener("click", () => setDrawer(false));
@@ -295,33 +316,44 @@ $$('[data-brush-color]:not(:disabled)').forEach((button) => {
 });
 
 $$('[data-add-product]').forEach((button) => {
-  button.addEventListener("click", () => {
-    const product = button.dataset.addProduct;
-    const selection = product === "Body Essentials Set"
-      ? $('input[name="set-shade"]:checked').value
-      : $("#brush-color-name").textContent;
-    if (product === "Body Essentials Set") {
-      storeCart.add({
-        key: `body-essentials-set|${selection}`,
-        name: product,
-        detail: selection,
-        image: "{{ 'BCKit_OnTan_1.jpg' | asset_url }}",
-        url: "/collections/all?view=body-coverage-perfector#pair-heading",
-        price: 84,
-      });
-    } else {
-      storeCart.add({
-        key: `blend-blur-body-brush|${selection}`,
-        name: product,
-        detail: selection,
-        image: "{{ 'brush-gold-hero.webp' | asset_url }}",
-        url: "/collections/all?view=blend-blur-body-brush",
-        price: 49,
-      });
+  button.addEventListener("click", async () => {
+    button.disabled = true;
+    try {
+      const product = button.dataset.addProduct;
+      const selection = product === "Body Essentials Set"
+        ? $('input[name="set-shade"]:checked').value
+        : $("#brush-color-name").textContent;
+      if (product === "Body Essentials Set") {
+        await storeCart.add({
+          key: `body-essentials-set|${selection}`,
+          productHandle: "body-essentials-set",
+          option: selection,
+          name: product,
+          detail: selection,
+          image: "{{ 'BCKit_OnTan_1.jpg' | asset_url }}",
+          url: "/collections/all?view=body-coverage-perfector#pair-heading",
+          price: 84,
+        });
+      } else {
+        await storeCart.add({
+          key: `blend-blur-body-brush|${selection}`,
+          productHandle: "blend-blur-body-brush",
+          option: selection,
+          name: product,
+          detail: selection,
+          image: "{{ 'brush-gold-hero.webp' | asset_url }}",
+          url: "/collections/all?view=blend-blur-body-brush",
+          price: 49,
+        });
+      }
+      setQuickModal(null, false);
+      setDrawer(true);
+      showToast(`${product} · ${selection} added to your bag`);
+    } catch (error) {
+      showToast(error.message);
+    } finally {
+      button.disabled = false;
     }
-    setQuickModal(null, false);
-    setDrawer(true);
-    showToast(`${product} · ${selection} added to your bag`);
   });
 });
 
