@@ -108,7 +108,7 @@ $("#add-brush").addEventListener("change", () => {
       name: "Blend & Blur Body Brush",
       detail: "Gold",
       image: "{{ 'brush-gold-hero.webp' | asset_url }}",
-      url: "/products/blend-blur-body-brush",
+      url: "/collections/all?view=blend-blur-body-brush",
       price: 49,
     });
     pairingBrushAdded = true;
@@ -193,7 +193,7 @@ $(".add-to-bag").addEventListener("click", () => {
     name: "Body Coverage Perfector",
     detail: `${state.shade} / ${state.size} · ${plan}`,
     image: $('input[name="shade"]:checked').dataset.hero,
-    url: "/products/body-coverage-perfector",
+    url: "/collections/all?view=body-coverage-perfector",
     price: currentPrice(),
   });
   if ($("#add-brush").checked && !pairingBrushAdded) {
@@ -202,7 +202,7 @@ $(".add-to-bag").addEventListener("click", () => {
       name: "Blend & Blur Body Brush",
       detail: "Gold",
       image: "{{ 'brush-gold-hero.webp' | asset_url }}",
-      url: "/products/blend-blur-body-brush",
+      url: "/collections/all?view=blend-blur-body-brush",
       price: 49,
     });
   }
@@ -306,7 +306,7 @@ $$('[data-add-product]').forEach((button) => {
         name: product,
         detail: selection,
         image: "{{ 'BCKit_OnTan_1.jpg' | asset_url }}",
-        url: "/products/body-coverage-perfector#pair-heading",
+        url: "/collections/all?view=body-coverage-perfector#pair-heading",
         price: 84,
       });
     } else {
@@ -315,7 +315,7 @@ $$('[data-add-product]').forEach((button) => {
         name: product,
         detail: selection,
         image: "{{ 'brush-gold-hero.webp' | asset_url }}",
-        url: "/products/blend-blur-body-brush",
+        url: "/collections/all?view=blend-blur-body-brush",
         price: 49,
       });
     }

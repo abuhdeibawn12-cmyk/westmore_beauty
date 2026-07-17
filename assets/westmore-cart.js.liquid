@@ -1,6 +1,16 @@
 (function initializeWestmoreCart() {
   const storageKey = "westmore-cart-v1";
   const listeners = new Set();
+  const productRoute = "/collections/all?view=body-coverage-perfector";
+  const brushRoute = "/collections/all?view=blend-blur-body-brush";
+  const offerRoute = "/collections/all?view=bodycoverageperfector-exclusiveoffer";
+
+  function normalizeUrl(value) {
+    return String(value || "")
+      .replace("/pages/bodycoverageperfector-exclusiveoffer", offerRoute)
+      .replace("/products/body-coverage-perfector", productRoute)
+      .replace("/products/blend-blur-body-brush", brushRoute);
+  }
 
   function readItems() {
     try {
@@ -11,7 +21,7 @@
         name: String(item.name || "Product"),
         detail: String(item.detail || ""),
         image: String(item.image || ""),
-        url: String(item.url || ""),
+        url: normalizeUrl(item.url),
         price: Math.max(0, Number(item.price) || 0),
         quantity: Math.max(1, Math.floor(Number(item.quantity) || 1)),
       }));
@@ -37,7 +47,7 @@
       existing.name = String(item.name || existing.name);
       existing.detail = String(item.detail || existing.detail);
       existing.image = String(item.image || existing.image);
-      existing.url = String(item.url || existing.url);
+      existing.url = normalizeUrl(item.url || existing.url);
       existing.price = Math.max(0, Number(item.price) || existing.price);
     } else {
       items.push({
@@ -45,7 +55,7 @@
         name: String(item.name || "Product"),
         detail: String(item.detail || ""),
         image: String(item.image || ""),
-        url: String(item.url || ""),
+        url: normalizeUrl(item.url),
         price: Math.max(0, Number(item.price) || 0),
         quantity: safeQuantity,
       });

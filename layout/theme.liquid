@@ -1,7 +1,13 @@
 {%- liquid
   assign westmore_view = 'default'
 
-  if request.page_type == 'index'
+  if template.suffix == 'body-coverage-perfector'
+    assign westmore_view = 'product'
+  elsif template.suffix == 'blend-blur-body-brush'
+    assign westmore_view = 'brush'
+  elsif template.suffix == 'bodycoverageperfector-exclusiveoffer'
+    assign westmore_view = 'exclusive'
+  elsif request.page_type == 'index'
     assign westmore_view = 'home'
   elsif request.page_type == 'product'
     if product.handle == 'blend-blur-body-brush' or template.suffix == 'blend-blur-body-brush'

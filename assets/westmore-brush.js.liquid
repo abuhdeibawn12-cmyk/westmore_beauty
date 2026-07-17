@@ -65,7 +65,7 @@ brush$(".brush-add-to-bag").addEventListener("click", () => {
     name: "Blend & Blur Body Brush",
     detail: brushState.color,
     image: brushState.color === "Gold" ? "{{ 'brush-gold-hero.webp' | asset_url }}" : "{{ 'brush-purple-hero.jpg' | asset_url }}",
-    url: "/products/blend-blur-body-brush",
+    url: "/collections/all?view=blend-blur-body-brush",
     price: brushState.price,
   });
   setBrushDrawer(true);
