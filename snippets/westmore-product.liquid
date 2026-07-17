@@ -30,20 +30,18 @@
       </div>
 
       <nav class="desktop-nav" aria-label="Primary navigation">
-        <a href="#">Bestsellers</a>
-        <a href="#">Body</a>
-        <a href="#">Face</a>
-        <a href="#">Eyes</a>
-        <a href="#">Lips</a>
+        <a href="/#bestsellers">Bestsellers</a>
+        <a href="/collections/all?view=body-coverage-perfector">Body</a>
         <a href="/collections/all?view=blend-blur-body-brush">Brushes &amp; Tools</a>
-        <a href="#">Sets &amp; Gifts</a>
+        <a href="/pages/bodycoverageperfector-exclusiveoffer#offer">Exclusive Offer</a>
       </nav>
 
       <nav class="mobile-nav" aria-label="Mobile navigation" hidden>
         <button class="mobile-nav-close" aria-label="Close menu">&times;</button>
-        <a href="#">Bestsellers</a><a href="#">Body</a><a href="#">Face</a>
-        <a href="#">Eyes</a><a href="#">Lips</a><a href="/collections/all?view=blend-blur-body-brush">Brushes &amp; Tools</a>
-        <a href="#">Sets &amp; Gifts</a>
+        <a href="/#bestsellers">Bestsellers</a>
+        <a href="/collections/all?view=body-coverage-perfector">Body</a>
+        <a href="/collections/all?view=blend-blur-body-brush">Brushes &amp; Tools</a>
+        <a href="/pages/bodycoverageperfector-exclusiveoffer#offer">Exclusive Offer</a>
       </nav>
     </header>
 
@@ -251,16 +249,7 @@
       <section class="perfect-pair" aria-labelledby="pair-heading">
         <div class="page-width pair-inner">
           <h2 id="pair-heading">Pairs perfectly with...</h2>
-          <div class="recommendations">
-            <article class="recommendation-card">
-              <img src="{{ 'BCKit_OnTan_1.jpg' | asset_url }}" alt="Body Essentials Set" />
-              <div class="recommendation-copy">
-                <h3>Body Essentials Set</h3>
-                <button class="recommendation-rating" type="button" data-review-product="Body Essentials Set" aria-label="Open review summary: 4.3 out of 5 stars from 10,749 reviews"><span>★★★★☆</span> (10749)</button>
-                <strong><s>$140.00</s> $84.00</strong>
-                <button class="recommendation-select" type="button" data-quick-view="body-set">Select Shade</button>
-              </div>
-            </article>
+          <div class="recommendations recommendations--single">
             <article class="recommendation-card">
               <a class="recommendation-product-link" href="/collections/all?view=blend-blur-body-brush" aria-label="View Blend and Blur Body Brush"><img src="{{ 'brush_05_product-hero-tan_700172b4-301b-424c-8cae-3739234126dd.webp' | asset_url }}" alt="Blend and Blur Body Brush" /></a>
               <div class="recommendation-copy">
@@ -314,8 +303,8 @@
           <svg class="footer-monogram" viewBox="0 0 66 43" aria-hidden="true" focusable="false"><path d="M1 4h13l8.5 22 8.2-17h6.8l7.5 17L53.5 4H66L51.2 39H40.5L34 25.3 27.7 39H17z" fill="currentColor" /></svg>
           <img src="{{ 'Westmore_-_Logo_CMYK_3_42fac461-62d8-4a93-a89e-ad1c92d41d40.png' | asset_url }}" alt="Westmore Beauty" />
         </div>
-        <nav class="footer-links" aria-labelledby="footer-shop-heading"><h2 id="footer-shop-heading">Shop</h2><a href="#">Shop All</a><a href="#">Bestsellers</a><a href="#">Sets &amp; Gifts</a></nav>
-        <nav class="footer-links" aria-labelledby="footer-support-heading"><h2 id="footer-support-heading">Support</h2><a href="#">Track Your Order</a><a href="#">Returns &amp; Exchanges</a><a href="#">Customer Service</a></nav>
+        <nav class="footer-links" aria-labelledby="footer-shop-heading"><h2 id="footer-shop-heading">Shop</h2><a href="/">Shop All</a><a href="/#bestsellers">Bestsellers</a><a href="/pages/bodycoverageperfector-exclusiveoffer#offer">Exclusive Offer</a></nav>
+        <nav class="footer-links" aria-labelledby="footer-support-heading"><h2 id="footer-support-heading">Support</h2></nav>
       </div>
       <div class="footer-bottom page-width"><span>&copy; 2026 Westmore Beauty Ultra, LLC All Rights Reserved</span><span><a href="#">Your Privacy Choices</a><a href="#">Terms &amp; Conditions</a><a href="#">Privacy Policy</a></span></div>
     </footer>
@@ -330,36 +319,6 @@
 
     <div class="shade-modal" role="dialog" aria-modal="true" aria-labelledby="shade-modal-title" hidden>
       <div class="shade-modal-card"><button class="shade-modal-close" aria-label="Close shade finder">&times;</button><p class="section-kicker">Shade Finder</p><h2 id="shade-modal-title">Meet your radiant match</h2><p>Choose the description closest to your natural skin tone.</p><div class="shade-quiz"><button data-recommend="1N Light Radiance">Fair / Light</button><button data-recommend="2N Natural Radiance">Light / Medium</button><button data-recommend="3W Golden Radiance">Medium / Tan</button><button data-recommend="5W Deep Radiance">Deep / Rich</button></div><p class="shade-result" aria-live="polite"></p></div>
-    </div>
-
-    <div class="quick-view-modal" data-quick-modal="body-set" role="dialog" aria-modal="true" aria-labelledby="body-set-modal-title" hidden>
-      <div class="quick-view-card">
-        <button class="quick-view-close" type="button" aria-label="Close Body Essentials Set selector">&times;</button>
-        <div class="quick-view-header">
-          <img src="{{ 'BCKit_OnTan_1.jpg' | asset_url }}" alt="Body Essentials Set" />
-          <div>
-            <h2 id="body-set-modal-title">Body Essentials Set</h2>
-            <p class="quick-price"><s>$140.00</s> $84.00</p>
-            <button class="quick-review-link" type="button" data-review-product="Body Essentials Set" aria-label="Open Body Essentials Set customer review summary"><span>★★★★☆</span> (10749)</button>
-          </div>
-        </div>
-        <fieldset class="quick-shades">
-          <legend><strong>Shade</strong> <span id="set-shade-name">2N Natural Radiance</span></legend>
-          <div>
-            <label data-shade-label="1N Light Radiance"><input type="radio" name="set-shade" value="1N Light Radiance" /><img src="{{ '1n-light-radiance.png' | asset_url }}" alt="1N Light Radiance" /></label>
-            <label data-shade-label="1C Cool Radiance"><input type="radio" name="set-shade" value="1C Cool Radiance" /><img src="{{ '1c-cool-radiance.png' | asset_url }}" alt="1C Cool Radiance" /></label>
-            <label data-shade-label="2W Warm Radiance"><input type="radio" name="set-shade" value="2W Warm Radiance" /><img src="{{ '2w-warm-radiance.png' | asset_url }}" alt="2W Warm Radiance" /></label>
-            <label data-shade-label="2N Natural Radiance"><input type="radio" name="set-shade" value="2N Natural Radiance" checked /><img src="{{ '2n-natural-radiance.png' | asset_url }}" alt="2N Natural Radiance" /></label>
-            <label data-shade-label="3N Sunlit Radiance"><input type="radio" name="set-shade" value="3N Sunlit Radiance" /><img src="{{ '3n-sunlit-radiance.png' | asset_url }}" alt="3N Sunlit Radiance" /></label>
-            <label data-shade-label="3W Golden Radiance"><input type="radio" name="set-shade" value="3W Golden Radiance" /><img src="{{ '3w-golden-radiance.png' | asset_url }}" alt="3W Golden Radiance" /></label>
-            <label data-shade-label="4W Tan Radiance"><input type="radio" name="set-shade" value="4W Tan Radiance" /><img src="{{ '4w-tan-radiance.png' | asset_url }}" alt="4W Tan Radiance" /></label>
-            <label data-shade-label="4C Bronze Radiance"><input type="radio" name="set-shade" value="4C Bronze Radiance" /><img src="{{ '4c-bronze-radiance.png' | asset_url }}" alt="4C Bronze Radiance" /></label>
-            <label data-shade-label="5W Deep Radiance"><input type="radio" name="set-shade" value="5W Deep Radiance" /><img src="{{ '5w-deep-radiance.png' | asset_url }}" alt="5W Deep Radiance" /></label>
-            <label data-shade-label="6N Rich Radiance"><input type="radio" name="set-shade" value="6N Rich Radiance" /><img src="{{ '6n-rich-radiance.png' | asset_url }}" alt="6N Rich Radiance" /></label>
-          </div>
-        </fieldset>
-        <button class="quick-add" type="button" data-add-product="Body Essentials Set">Add to Bag</button>
-      </div>
     </div>
 
     <div class="quick-view-modal" data-quick-modal="brush" role="dialog" aria-modal="true" aria-labelledby="brush-modal-title" hidden>
