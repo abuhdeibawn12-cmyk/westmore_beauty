@@ -1,0 +1,62 @@
+{%- liquid
+  assign westmore_view = 'default'
+
+  if request.page_type == 'index'
+    assign westmore_view = 'home'
+  elsif request.page_type == 'product'
+    if product.handle == 'blend-blur-body-brush' or template.suffix == 'blend-blur-body-brush'
+      assign westmore_view = 'brush'
+    else
+      assign westmore_view = 'product'
+    endif
+  elsif request.page_type == 'page'
+    if page.handle == 'bodycoverageperfector-exclusiveoffer' or template.suffix == 'bodycoverageperfector-exclusiveoffer'
+      assign westmore_view = 'exclusive'
+    endif
+  endif
+-%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code | default: 'en' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#1d1938">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <title>
+      {{ page_title | default: shop.name }}
+      {%- if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {{ content_for_header }}
+    {{ 'westmore-base.css' | asset_url | stylesheet_tag }}
+
+    {%- case westmore_view -%}
+      {%- when 'home' -%}
+        {{ 'westmore-home.css' | asset_url | stylesheet_tag }}
+      {%- when 'brush' -%}
+        {{ 'westmore-brush.css' | asset_url | stylesheet_tag }}
+      {%- when 'exclusive' -%}
+        {{ 'westmore-exclusive.css' | asset_url | stylesheet_tag }}
+    {%- endcase -%}
+  </head>
+  <body
+    class="{% case westmore_view %}{% when 'home' %}homepage{% when 'brush' %}brush-page{% when 'exclusive' %}exclusive-page{% endcase %}"
+    data-shopify-theme="westmore-beauty"
+  >
+    {{ content_for_layout }}
+
+    <script src="{{ 'westmore-cart.js' | asset_url }}" defer></script>
+    {%- case westmore_view -%}
+      {%- when 'home' -%}
+        <script src="{{ 'westmore-home.js' | asset_url }}" defer></script>
+      {%- when 'product' -%}
+        <script src="{{ 'westmore-product.js' | asset_url }}" defer></script>
+      {%- when 'brush' -%}
+        <script src="{{ 'westmore-brush.js' | asset_url }}" defer></script>
+      {%- when 'exclusive' -%}
+        <script src="{{ 'westmore-exclusive.js' | asset_url }}" defer></script>
+    {%- endcase -%}
+  </body>
+</html>
