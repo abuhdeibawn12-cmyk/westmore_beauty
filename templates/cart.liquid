@@ -1,0 +1,92 @@
+<main class="wm-cart" role="main">
+  <header class="wm-cart__header">
+    <a class="wm-cart__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }} home">
+      <span>WESTMORE</span>
+      <small>BEAUTY</small>
+    </a>
+    <a class="wm-cart__continue" href="{{ routes.all_products_collection_url }}">Continue shopping</a>
+  </header>
+
+  <section class="wm-cart__content" aria-labelledby="wm-cart-title">
+    <div class="wm-cart__heading">
+      <p>Your selections</p>
+      <h1 id="wm-cart-title">Your Bag{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}</h1>
+    </div>
+
+    {% if cart.item_count == 0 %}
+      <div class="wm-cart__empty">
+        <h2>Your bag is empty</h2>
+        <p>Discover seamless body coverage and the tools made to perfect it.</p>
+        <a class="wm-cart__primary" href="{{ routes.all_products_collection_url }}">Shop products</a>
+      </div>
+    {% else %}
+      <form action="{{ routes.cart_url }}" method="post" novalidate>
+        <div class="wm-cart__layout">
+          <div class="wm-cart__items">
+            {% for item in cart.items %}
+              <article class="wm-cart__item">
+                <a class="wm-cart__image" href="{{ item.url }}">
+                  {% if item.image %}
+                    {{
+                      item.image
+                      | image_url: width: 360
+                      | image_tag:
+                        loading: 'eager',
+                        widths: '120, 180, 240, 360',
+                        sizes: '(max-width: 600px) 112px, 150px',
+                        alt: item.product.title
+                    }}
+                  {% else %}
+                    <span aria-hidden="true">{{ item.product.title | slice: 0 }}</span>
+                  {% endif %}
+                </a>
+
+                <div class="wm-cart__details">
+                  <div>
+                    <a class="wm-cart__title" href="{{ item.url }}">{{ item.product.title }}</a>
+                    {% unless item.product.has_only_default_variant %}
+                      <p class="wm-cart__variant">{{ item.variant.title }}</p>
+                    {% endunless %}
+                    {% for property in item.properties %}
+                      {% assign property_first_character = property.first | slice: 0 %}
+                      {% if property.last != blank and property_first_character != '_' %}
+                        <p class="wm-cart__property">{{ property.first }}: {{ property.last }}</p>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+
+                  <div class="wm-cart__line-controls">
+                    <label for="Quantity-{{ forloop.index }}">Quantity</label>
+                    <input
+                      id="Quantity-{{ forloop.index }}"
+                      name="updates[]"
+                      type="number"
+                      value="{{ item.quantity }}"
+                      min="0"
+                      inputmode="numeric"
+                      aria-label="Quantity for {{ item.product.title | escape }}"
+                    >
+                    <a href="{{ item.url_to_remove }}" aria-label="Remove {{ item.product.title | escape }}">Remove</a>
+                  </div>
+                </div>
+
+                <strong class="wm-cart__price">{{ item.final_line_price | money }}</strong>
+              </article>
+            {% endfor %}
+          </div>
+
+          <aside class="wm-cart__summary" aria-label="Order summary">
+            <p class="wm-cart__summary-label">Order summary</p>
+            <div class="wm-cart__subtotal">
+              <span>Subtotal</span>
+              <strong>{{ cart.total_price | money }}</strong>
+            </div>
+            <p class="wm-cart__shipping-note">Shipping and taxes are calculated at checkout.</p>
+            <button class="wm-cart__checkout" type="submit" name="checkout">Checkout</button>
+            <button class="wm-cart__update" type="submit" name="update">Update bag</button>
+          </aside>
+        </div>
+      </form>
+    {% endif %}
+  </section>
+</main>
