@@ -23,6 +23,49 @@ brushThumbs.forEach((thumb, index) => thumb.addEventListener("click", () => sele
 brush$(".brush-gallery-prev").addEventListener("click", () => selectBrushImage(brushState.galleryIndex - 1));
 brush$(".brush-gallery-next").addEventListener("click", () => selectBrushImage(brushState.galleryIndex + 1));
 
+const brushDetailTrack = brush$(".brush-detail-track");
+const brushDetailSlides = brush$$(".brush-detail-slide");
+const brushDetailDots = brush$$(".brush-detail-dots button");
+const brushDetailSlider = brush$(".brush-detail-slider");
+let brushDetailIndex = 0;
+let brushDetailPointerStart = null;
+
+function selectBrushDetail(index) {
+  brushDetailIndex = (index + brushDetailSlides.length) % brushDetailSlides.length;
+  brushDetailTrack.style.transform = `translateX(-${brushDetailIndex * 100}%)`;
+  brushDetailDots.forEach((dot, dotIndex) => {
+    const active = dotIndex === brushDetailIndex;
+    dot.classList.toggle("active", active);
+    dot.setAttribute("aria-selected", String(active));
+  });
+}
+
+brushDetailDots.forEach((dot, index) => dot.addEventListener("click", () => selectBrushDetail(index)));
+brush$(".brush-detail-prev").addEventListener("click", () => selectBrushDetail(brushDetailIndex - 1));
+brush$(".brush-detail-next").addEventListener("click", () => selectBrushDetail(brushDetailIndex + 1));
+brushDetailSlider.addEventListener("pointerdown", (event) => {
+  brushDetailPointerStart = event.clientX;
+});
+brushDetailSlider.addEventListener("pointerup", (event) => {
+  if (brushDetailPointerStart === null) return;
+  const distance = event.clientX - brushDetailPointerStart;
+  if (Math.abs(distance) > 45) selectBrushDetail(brushDetailIndex + (distance < 0 ? 1 : -1));
+  brushDetailPointerStart = null;
+});
+brushDetailSlider.addEventListener("pointercancel", () => {
+  brushDetailPointerStart = null;
+});
+brushDetailSlider.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowLeft") {
+    event.preventDefault();
+    selectBrushDetail(brushDetailIndex - 1);
+  }
+  if (event.key === "ArrowRight") {
+    event.preventDefault();
+    selectBrushDetail(brushDetailIndex + 1);
+  }
+});
+
 brush$$("input[name='brush-color']").forEach((input) => {
   input.addEventListener("change", () => {
     brushState.color = input.value;
