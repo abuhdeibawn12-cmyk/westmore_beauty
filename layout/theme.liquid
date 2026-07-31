@@ -11,8 +11,6 @@
     assign westmore_view = 'home'
   elsif request.page_type == 'cart'
     assign westmore_view = 'cart'
-  elsif request.page_type == 'policy'
-    assign westmore_view = 'policy'
   elsif request.page_type == 'product'
     if product.handle == 'blend-blur-body-brush' or template.suffix == 'blend-blur-body-brush'
       assign westmore_view = 'brush'
@@ -51,12 +49,10 @@
         {{ 'westmore-exclusive.css' | asset_url | stylesheet_tag }}
       {%- when 'cart' -%}
         {{ 'westmore-cart-page.css' | asset_url | stylesheet_tag }}
-      {%- when 'policy' -%}
-        {{ 'westmore-policy.css' | asset_url | stylesheet_tag }}
     {%- endcase -%}
   </head>
   <body
-    class="{% case westmore_view %}{% when 'home' %}homepage{% when 'brush' %}brush-page{% when 'exclusive' %}exclusive-page{% when 'cart' %}cart-page{% when 'policy' %}policy-page{% endcase %}"
+    class="{% case westmore_view %}{% when 'home' %}homepage{% when 'brush' %}brush-page{% when 'exclusive' %}exclusive-page{% when 'cart' %}cart-page{% endcase %}"
     data-shopify-theme="westmore-beauty"
   >
     {{ content_for_layout }}
