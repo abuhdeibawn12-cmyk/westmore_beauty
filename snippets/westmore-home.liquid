@@ -268,7 +268,7 @@
         </a>
         <nav class="footer-links" aria-labelledby="home-footer-shop"><h2 id="home-footer-shop">Shop</h2><a href="#bestsellers">Shop All</a><a href="#bestsellers">Bestsellers</a><a href="/collections/all?view=bodycoverageperfector-exclusiveoffer">Shop Offer</a></nav>
       </div>
-      <div class="footer-bottom page-width"><span>&copy; 2026 Westmore Beauty Ultra, LLC All Rights Reserved</span><span><a href="#">Your Privacy Choices</a><a href="#">Terms &amp; Conditions</a><a href="#">Privacy Policy</a></span></div>
+      <div class="footer-bottom page-width"><span>&copy; 2026 Westmore Beauty Ultra, LLC All Rights Reserved</span><span><a href="{{ shop.refund_policy.url | default: '/policies/refund-policy' }}">Refund and Return</a><a href="{{ shop.terms_of_service.url | default: '/policies/terms-of-service' }}">Terms &amp; Conditions</a><a href="{{ shop.privacy_policy.url | default: '/policies/privacy-policy' }}">Privacy Policy</a></span></div>
     </footer>
 
     <div class="home-search" hidden>
